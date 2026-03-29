@@ -113,6 +113,8 @@ body{font-family:'Nunito',sans-serif;background:#f0fdfa;color:#1e293b;overflow-x
 .ft{font-size:.85em;color:#0e7490;font-weight:700;line-height:1.8}
 .fn{font-family:'Baloo 2',cursive;font-weight:800;font-size:1em;color:#0e7490}
 @media(max-width:600px){.title{font-size:clamp(1.5em,7vw,2.2em)}.cards{gap:14px}.ci{width:40px;height:40px;font-size:1.2em}.ct{font-size:.9em}}
+.dl.open{border-color:#94a3b8}
+
 </style>
 </head>
 <body>
@@ -1161,6 +1163,386 @@ function resetAll(){document.getElementById(&#x27;setupScreen&#x27;).classList.r
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;</textarea>
+<textarea id="game7" style="display:none">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;vi&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;Đấu Trường Tri Thức – Lớp 2&lt;/title&gt;
+&lt;style&gt;
+@import url(&#x27;https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&amp;family=Nunito:wght@400;600;700;800&amp;display=swap&#x27;);
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:&#x27;Nunito&#x27;,sans-serif;background:linear-gradient(135deg,#fffbeb,#fef3c7,#ffedd5,#fff7ed);min-height:100vh;color:#1e293b}
+.container{max-width:900px;margin:0 auto;padding:16px;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+h1{font-family:&#x27;Baloo 2&#x27;,cursive;font-size:clamp(1.8em,5vw,3em);text-align:center;color:#d97706;margin-bottom:4px}
+.subtitle{text-align:center;font-size:1em;color:#64748b;margin-bottom:14px;font-weight:600}
+.setup-card{background:white;border-radius:24px;padding:28px;width:100%;max-width:550px;box-shadow:0 8px 32px rgba(0,0,0,.08);border:2px solid #fcd34d}
+.setup-card label{display:block;font-weight:700;font-size:1em;margin:12px 0 5px;color:#d97706}
+.setup-card select{width:100%;padding:12px 16px;border-radius:12px;border:2px solid #e2e8f0;font-size:1em;font-family:&#x27;Nunito&#x27;,sans-serif;font-weight:600;background:#fafafa;outline:none;transition:.3s;color:#334155}
+.setup-card select:focus{border-color:#f59e0b}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:14px 30px;border:none;border-radius:14px;font-family:&#x27;Baloo 2&#x27;,cursive;font-size:1.15em;cursor:pointer;transition:all .3s;box-shadow:0 4px 15px rgba(0,0,0,.1)}
+.btn:hover{transform:translateY(-2px)}.btn:active{transform:translateY(0)}
+.btn-start{background:linear-gradient(135deg,#f59e0b,#d97706);color:white;width:100%;margin-top:16px;font-size:1.3em;padding:16px}
+.btn-next{background:linear-gradient(135deg,#3b82f6,#2563eb);color:white}
+.btn-restart{background:linear-gradient(135deg,#10b981,#059669);color:white}
+.hidden{display:none!important}
+.levels{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
+.level-btn{padding:14px 8px;border-radius:14px;border:3px solid #e2e8f0;background:white;text-align:center;cursor:pointer;transition:.3s;font-weight:700;font-size:.85em}
+.level-btn:hover{transform:scale(1.04)}
+.level-btn.active{border-color:#f59e0b;background:#fffbeb;box-shadow:0 4px 16px rgba(245,158,11,.15)}
+.level-btn.locked{opacity:.5;cursor:not-allowed}
+.level-btn .lv-icon{font-size:1.6em;display:block;margin-bottom:2px}
+.level-btn .lv-name{font-size:.8em;color:#64748b}
+.game-area{width:100%;max-width:800px}
+.progress-bar{background:#f1f5f9;border-radius:12px;height:14px;margin-bottom:14px;overflow:hidden;position:relative}
+.progress-fill{height:100%;border-radius:12px;transition:width .5s;background:linear-gradient(90deg,#fbbf24,#f59e0b)}
+.progress-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:.6em;font-weight:800;color:#92400e}
+.top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px}
+.info-box{background:white;padding:8px 16px;border-radius:12px;font-weight:800;border:2px solid #fde68a;font-size:.9em}
+.lives{display:flex;gap:2px;font-size:1.2em}
+.q-card{background:white;border:2px solid #fde68a;border-radius:20px;padding:24px;text-align:center;margin-bottom:12px;transition:.4s;box-shadow:0 4px 16px rgba(0,0,0,.04)}
+.q-card.flash-correct{border-color:#22c55e;background:#f0fdf4}
+.q-card.flash-wrong{border-color:#ef4444;background:#fef2f2}
+.q-level{font-size:.75em;font-weight:800;padding:2px 10px;border-radius:20px;display:inline-block;margin-bottom:6px}
+.q-topic{color:#d97706;font-size:.85em;font-weight:700;margin-bottom:4px}
+.q-text{font-family:&#x27;Baloo 2&#x27;,cursive;font-size:clamp(1.2em,3vw,1.8em);margin:8px 0 16px;line-height:1.3}
+.options-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:600px;margin:0 auto}
+.option-btn{padding:14px 18px;border-radius:14px;border:3px solid #e2e8f0;background:#f8fafc;color:#1e293b;font-size:clamp(.95em,2vw,1.2em);font-weight:700;cursor:pointer;transition:.3s;text-align:center}
+.option-btn:hover{border-color:#f59e0b;background:#fffbeb;transform:scale(1.02)}
+.option-btn.correct{border-color:#22c55e;background:#dcfce7;color:#166534}
+.option-btn.wrong{border-color:#ef4444;background:#fee2e2;color:#991b1b}
+.feedback{font-family:&#x27;Baloo 2&#x27;,cursive;font-size:1.3em;margin:10px 0;min-height:28px}
+.feedback.correct{color:#16a34a}.feedback.wrong{color:#dc2626}
+.controls{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.result-card{background:white;border-radius:24px;padding:30px;box-shadow:0 8px 32px rgba(0,0,0,.08);text-align:center;width:100%;max-width:550px;border:3px solid #fcd34d}
+.rank-icon{font-size:4em;margin-bottom:6px;animation:bounce 1s ease-in-out infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.result-title{font-family:&#x27;Baloo 2&#x27;,cursive;font-size:1.8em;color:#d97706}
+.result-rank{font-family:&#x27;Baloo 2&#x27;,cursive;font-size:1.4em;color:#92400e;margin:8px 0}
+.result-stats{font-size:1em;font-weight:700;margin:10px 0;line-height:1.8}
+.stars{font-size:2em;margin:8px 0}
+.confetti-piece{position:fixed;top:-20px;z-index:10000;animation:confetti-fall var(--fall-duration) ease-out forwards}
+@keyframes confetti-fall{to{top:110vh;transform:rotate(var(--rotation))}}
+.level-up{font-family:&#x27;Baloo 2&#x27;,cursive;font-size:1.2em;color:#16a34a;background:#dcfce7;border:2px solid #86efac;border-radius:12px;padding:10px 20px;margin:10px 0;animation:pop .5s}
+@keyframes pop{0%{transform:scale(.8);opacity:0}50%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+@media(max-width:600px){.options-grid{grid-template-columns:1fr}.levels{grid-template-columns:repeat(2,1fr)}}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;container&quot;&gt;
+  &lt;div id=&quot;setupScreen&quot;&gt;
+    &lt;h1&gt;⚔️ Đấu Trường Tri Thức&lt;/h1&gt;
+    &lt;p class=&quot;subtitle&quot;&gt;Trạng Nguyên Nhí – Lớp 2&lt;/p&gt;
+    &lt;div class=&quot;setup-card&quot;&gt;
+      &lt;label&gt;📚 Môn học:&lt;/label&gt;
+      &lt;select id=&quot;subjectSelect&quot;&gt;
+        &lt;option value=&quot;mix&quot;&gt;🎲 Toán + Tiếng Việt&lt;/option&gt;
+        &lt;option value=&quot;math&quot;&gt;🔢 Toán Lớp 2&lt;/option&gt;
+        &lt;option value=&quot;viet&quot;&gt;📖 Tiếng Việt Lớp 2&lt;/option&gt;
+      &lt;/select&gt;
+      &lt;label&gt;🏆 Chọn cấp độ:&lt;/label&gt;
+      &lt;div class=&quot;levels&quot;&gt;
+        &lt;div class=&quot;level-btn active&quot; onclick=&quot;selectLevel(0)&quot; id=&quot;lv0&quot;&gt;&lt;span class=&quot;lv-icon&quot;&gt;🌱&lt;/span&gt;Sơ cấp&lt;span class=&quot;lv-name&quot;&gt;10 câu dễ&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;level-btn&quot; onclick=&quot;selectLevel(1)&quot; id=&quot;lv1&quot;&gt;&lt;span class=&quot;lv-icon&quot;&gt;⚡&lt;/span&gt;Trung cấp&lt;span class=&quot;lv-name&quot;&gt;15 câu TB&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;level-btn&quot; onclick=&quot;selectLevel(2)&quot; id=&quot;lv2&quot;&gt;&lt;span class=&quot;lv-icon&quot;&gt;🔥&lt;/span&gt;Cao cấp&lt;span class=&quot;lv-name&quot;&gt;20 câu khó&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;level-btn&quot; onclick=&quot;selectLevel(3)&quot; id=&quot;lv3&quot;&gt;&lt;span class=&quot;lv-icon&quot;&gt;👑&lt;/span&gt;Trạng Nguyên&lt;span class=&quot;lv-name&quot;&gt;25 câu siêu khó&lt;/span&gt;&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;button class=&quot;btn btn-start&quot; onclick=&quot;startGame()&quot;&gt;⚔️ VÀO ĐẤU TRƯỜNG&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div id=&quot;gameScreen&quot; class=&quot;game-area hidden&quot;&gt;
+    &lt;div class=&quot;progress-bar&quot;&gt;&lt;div class=&quot;progress-fill&quot; id=&quot;progFill&quot; style=&quot;width:0&quot;&gt;&lt;/div&gt;&lt;div class=&quot;progress-text&quot; id=&quot;progText&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class=&quot;top-bar&quot;&gt;
+      &lt;div class=&quot;info-box&quot; style=&quot;color:#d97706&quot; id=&quot;levelLabel&quot;&gt;🌱 Sơ cấp&lt;/div&gt;
+      &lt;div class=&quot;info-box&quot; style=&quot;color:#16a34a&quot; id=&quot;scoreLabel&quot;&gt;⭐ 0&lt;/div&gt;
+      &lt;div class=&quot;info-box&quot;&gt;&lt;div class=&quot;lives&quot; id=&quot;livesDisplay&quot;&gt;❤️❤️❤️&lt;/div&gt;&lt;/div&gt;
+      &lt;div class=&quot;info-box&quot; style=&quot;color:#dc2626&quot; id=&quot;roundInfo&quot;&gt;1/10&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;q-card&quot; id=&quot;qCard&quot;&gt;
+      &lt;div class=&quot;q-level&quot; id=&quot;qLevel&quot; style=&quot;background:#fef3c7;color:#92400e&quot;&gt;🌱 Sơ cấp&lt;/div&gt;
+      &lt;div class=&quot;q-topic&quot; id=&quot;qTopic&quot;&gt;&lt;/div&gt;
+      &lt;div class=&quot;q-text&quot; id=&quot;qText&quot;&gt;&lt;/div&gt;
+      &lt;div class=&quot;options-grid&quot; id=&quot;optionsGrid&quot;&gt;&lt;/div&gt;
+      &lt;div class=&quot;feedback&quot; id=&quot;feedback&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;controls&quot;&gt;&lt;button class=&quot;btn btn-next&quot; id=&quot;btnNext&quot; onclick=&quot;nextQ()&quot; style=&quot;display:none&quot;&gt;Câu tiếp ➜&lt;/button&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div id=&quot;resultScreen&quot; class=&quot;hidden&quot;&gt;
+    &lt;div class=&quot;result-card&quot;&gt;
+      &lt;div class=&quot;rank-icon&quot; id=&quot;rankIcon&quot;&gt;🏆&lt;/div&gt;
+      &lt;div class=&quot;result-title&quot;&gt;KẾT QUẢ ĐẤU TRƯỜNG&lt;/div&gt;
+      &lt;div class=&quot;result-rank&quot; id=&quot;resultRank&quot;&gt;&lt;/div&gt;
+      &lt;div class=&quot;stars&quot; id=&quot;resultStars&quot;&gt;&lt;/div&gt;
+      &lt;div class=&quot;result-stats&quot; id=&quot;resultStats&quot;&gt;&lt;/div&gt;
+      &lt;div id=&quot;levelUpMsg&quot;&gt;&lt;/div&gt;
+      &lt;div class=&quot;controls&quot; style=&quot;margin-top:14px&quot;&gt;
+        &lt;button class=&quot;btn btn-start&quot; onclick=&quot;startGame()&quot;&gt;🔄 Chơi lại&lt;/button&gt;
+        &lt;button class=&quot;btn btn-restart&quot; onclick=&quot;resetAll()&quot;&gt;⚙️ Đổi cấp độ&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+let _aC;function _iA(){if(!_aC)_aC=new(window.AudioContext||window.webkitAudioContext)()}
+function _pT(f,d,t,v){_iA();const o=_aC.createOscillator(),g=_aC.createGain();o.type=t||&#x27;sine&#x27;;o.frequency.value=f;g.gain.value=v||.15;g.gain.exponentialRampToValueAtTime(.001,_aC.currentTime+d);o.connect(g);g.connect(_aC.destination);o.start();o.stop(_aC.currentTime+d)}
+function sndOk(){_pT(523,.08,&#x27;sine&#x27;,.2);setTimeout(()=&gt;_pT(659,.08,&#x27;sine&#x27;,.2),80);setTimeout(()=&gt;_pT(784,.15,&#x27;sine&#x27;,.2),160)}
+function sndNo(){_pT(200,.25,&#x27;sawtooth&#x27;,.12)}
+function sndWin(){[523,587,659,784,1047].forEach((f,i)=&gt;setTimeout(()=&gt;_pT(f,.18,&#x27;sine&#x27;,.2),i*100))}
+function sndLevelUp(){[523,659,784,1047,1319].forEach((f,i)=&gt;setTimeout(()=&gt;_pT(f,.12,&#x27;sine&#x27;,.18),i*80))}
+function shuffle(a){for(let i=a.length-1;i&gt;0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+const LEVELS=[{name:&#x27;🌱 Sơ cấp&#x27;,total:10,lives:3,color:&#x27;#16a34a&#x27;,bg:&#x27;#dcfce7&#x27;},{name:&#x27;⚡ Trung cấp&#x27;,total:15,lives:3,color:&#x27;#d97706&#x27;,bg:&#x27;#fef3c7&#x27;},{name:&#x27;🔥 Cao cấp&#x27;,total:20,lives:2,color:&#x27;#dc2626&#x27;,bg:&#x27;#fee2e2&#x27;},{name:&#x27;👑 Trạng Nguyên&#x27;,total:25,lives:2,color:&#x27;#7c3aed&#x27;,bg:&#x27;#ede9fe&#x27;}];
+const QBank={
+math_easy:[
+{q:&quot;36 + 42 = ?&quot;,o:[&quot;68&quot;,&quot;78&quot;,&quot;88&quot;,&quot;72&quot;],a:1,t:&quot;Cộng&quot;},
+{q:&quot;58 + 27 = ?&quot;,o:[&quot;75&quot;,&quot;85&quot;,&quot;95&quot;,&quot;82&quot;],a:1,t:&quot;Cộng có nhớ&quot;},
+{q:&quot;90 − 45 = ?&quot;,o:[&quot;55&quot;,&quot;45&quot;,&quot;35&quot;,&quot;50&quot;],a:1,t:&quot;Trừ&quot;},
+{q:&quot;73 − 28 = ?&quot;,o:[&quot;55&quot;,&quot;45&quot;,&quot;35&quot;,&quot;51&quot;],a:1,t:&quot;Trừ có nhớ&quot;},
+{q:&quot;2 × 6 = ?&quot;,o:[&quot;10&quot;,&quot;14&quot;,&quot;12&quot;,&quot;8&quot;],a:2,t:&quot;Nhân 2&quot;},
+{q:&quot;3 × 5 = ?&quot;,o:[&quot;12&quot;,&quot;15&quot;,&quot;18&quot;,&quot;20&quot;],a:1,t:&quot;Nhân 3&quot;},
+{q:&quot;4 × 4 = ?&quot;,o:[&quot;12&quot;,&quot;14&quot;,&quot;16&quot;,&quot;20&quot;],a:2,t:&quot;Nhân 4&quot;},
+{q:&quot;5 × 7 = ?&quot;,o:[&quot;30&quot;,&quot;40&quot;,&quot;35&quot;,&quot;25&quot;],a:2,t:&quot;Nhân 5&quot;},
+{q:&quot;10 ÷ 2 = ?&quot;,o:[&quot;4&quot;,&quot;5&quot;,&quot;6&quot;,&quot;3&quot;],a:1,t:&quot;Chia 2&quot;},
+{q:&quot;15 ÷ 3 = ?&quot;,o:[&quot;4&quot;,&quot;5&quot;,&quot;6&quot;,&quot;3&quot;],a:1,t:&quot;Chia 3&quot;},
+{q:&quot;20 ÷ 4 = ?&quot;,o:[&quot;4&quot;,&quot;5&quot;,&quot;6&quot;,&quot;3&quot;],a:1,t:&quot;Chia 4&quot;},
+{q:&quot;25 ÷ 5 = ?&quot;,o:[&quot;4&quot;,&quot;5&quot;,&quot;6&quot;,&quot;3&quot;],a:1,t:&quot;Chia 5&quot;},
+{q:&quot;Hình vuông cạnh 5cm. Chu vi = ?&quot;,o:[&quot;15cm&quot;,&quot;20cm&quot;,&quot;25cm&quot;,&quot;10cm&quot;],a:1,t:&quot;Hình học&quot;},
+{q:&quot;3 dm = ? cm&quot;,o:[&quot;3&quot;,&quot;30&quot;,&quot;300&quot;,&quot;33&quot;],a:1,t:&quot;Đo lường&quot;},
+{q:&quot;2 m = ? dm&quot;,o:[&quot;2&quot;,&quot;200&quot;,&quot;20&quot;,&quot;22&quot;],a:2,t:&quot;Đo lường&quot;},
+{q:&quot;45 + 36 = ?&quot;,o:[&quot;71&quot;,&quot;81&quot;,&quot;91&quot;,&quot;76&quot;],a:1,t:&quot;Cộng có nhớ&quot;},
+{q:&quot;67 − 29 = ?&quot;,o:[&quot;48&quot;,&quot;38&quot;,&quot;28&quot;,&quot;42&quot;],a:1,t:&quot;Trừ có nhớ&quot;},
+{q:&quot;2 × 9 = ?&quot;,o:[&quot;16&quot;,&quot;18&quot;,&quot;14&quot;,&quot;20&quot;],a:1,t:&quot;Nhân 2&quot;},
+{q:&quot;5 × 6 = ?&quot;,o:[&quot;25&quot;,&quot;35&quot;,&quot;30&quot;,&quot;40&quot;],a:2,t:&quot;Nhân 5&quot;},
+{q:&quot;12 ÷ 3 = ?&quot;,o:[&quot;3&quot;,&quot;4&quot;,&quot;5&quot;,&quot;6&quot;],a:1,t:&quot;Chia 3&quot;},
+{q:&quot;4 × 8 = ?&quot;,o:[&quot;28&quot;,&quot;32&quot;,&quot;36&quot;,&quot;24&quot;],a:1,t:&quot;Nhân 4&quot;},
+{q:&quot;3 × 9 = ?&quot;,o:[&quot;24&quot;,&quot;27&quot;,&quot;30&quot;,&quot;21&quot;],a:1,t:&quot;Nhân 3&quot;},
+{q:&quot;50 ÷ 5 = ?&quot;,o:[&quot;8&quot;,&quot;9&quot;,&quot;10&quot;,&quot;11&quot;],a:2,t:&quot;Chia 5&quot;},
+{q:&quot;28 ÷ 4 = ?&quot;,o:[&quot;6&quot;,&quot;7&quot;,&quot;8&quot;,&quot;5&quot;],a:1,t:&quot;Chia 4&quot;},
+{q:&quot;HCN dài 6cm rộng 3cm. Chu vi = ?&quot;,o:[&quot;9cm&quot;,&quot;12cm&quot;,&quot;18cm&quot;,&quot;24cm&quot;],a:2,t:&quot;Hình học&quot;}
+],
+math_medium:[
+{q:&quot;57 + 34 = ?&quot;,o:[&quot;81&quot;,&quot;91&quot;,&quot;71&quot;,&quot;101&quot;],a:1,t:&quot;Cộng có nhớ&quot;},
+{q:&quot;100 − 56 = ?&quot;,o:[&quot;44&quot;,&quot;54&quot;,&quot;34&quot;,&quot;64&quot;],a:0,t:&quot;Trừ&quot;},
+{q:&quot;3 × 8 + 4 = ?&quot;,o:[&quot;24&quot;,&quot;28&quot;,&quot;32&quot;,&quot;20&quot;],a:1,t:&quot;Biểu thức&quot;},
+{q:&quot;4 × 5 − 8 = ?&quot;,o:[&quot;10&quot;,&quot;12&quot;,&quot;14&quot;,&quot;8&quot;],a:1,t:&quot;Biểu thức&quot;},
+{q:&quot;? × 3 = 27&quot;,o:[&quot;7&quot;,&quot;8&quot;,&quot;9&quot;,&quot;6&quot;],a:2,t:&quot;Tìm thừa số&quot;},
+{q:&quot;? ÷ 4 = 6&quot;,o:[&quot;20&quot;,&quot;24&quot;,&quot;28&quot;,&quot;16&quot;],a:1,t:&quot;Tìm số bị chia&quot;},
+{q:&quot;38 + ? = 75&quot;,o:[&quot;43&quot;,&quot;37&quot;,&quot;47&quot;,&quot;33&quot;],a:1,t:&quot;Tìm số hạng&quot;},
+{q:&quot;HV cạnh 7cm. Chu vi = ?&quot;,o:[&quot;21cm&quot;,&quot;28cm&quot;,&quot;35cm&quot;,&quot;14cm&quot;],a:1,t:&quot;Hình học&quot;},
+{q:&quot;HCN dài 8cm rộng 4cm. Chu vi = ?&quot;,o:[&quot;12cm&quot;,&quot;24cm&quot;,&quot;32cm&quot;,&quot;16cm&quot;],a:1,t:&quot;Hình học&quot;},
+{q:&quot;5 dm + 7 dm = ? m ? dm&quot;,o:[&quot;1m 2dm&quot;,&quot;12dm&quot;,&quot;1m 7dm&quot;,&quot;57dm&quot;],a:0,t:&quot;Đo lường&quot;},
+{q:&quot;1 m = ? cm&quot;,o:[&quot;10&quot;,&quot;1000&quot;,&quot;100&quot;,&quot;50&quot;],a:2,t:&quot;Đo lường&quot;},
+{q:&quot;45 ÷ 5 + 12 = ?&quot;,o:[&quot;19&quot;,&quot;21&quot;,&quot;17&quot;,&quot;23&quot;],a:1,t:&quot;Biểu thức&quot;},
+{q:&quot;86 − ? = 39&quot;,o:[&quot;47&quot;,&quot;57&quot;,&quot;37&quot;,&quot;53&quot;],a:0,t:&quot;Tìm SBT&quot;},
+{q:&quot;2 × 8 + 3 × 4 = ?&quot;,o:[&quot;26&quot;,&quot;28&quot;,&quot;30&quot;,&quot;24&quot;],a:1,t:&quot;Biểu thức&quot;},
+{q:&quot;Tam giác cạnh 4, 5, 6 cm. Chu vi = ?&quot;,o:[&quot;14cm&quot;,&quot;16cm&quot;,&quot;15cm&quot;,&quot;12cm&quot;],a:2,t:&quot;Hình học&quot;},
+{q:&quot;5 × 5 + 5 = ?&quot;,o:[&quot;25&quot;,&quot;30&quot;,&quot;35&quot;,&quot;20&quot;],a:1,t:&quot;Biểu thức&quot;},
+{q:&quot;3 kg + 5 kg − 2 kg = ?&quot;,o:[&quot;4 kg&quot;,&quot;6 kg&quot;,&quot;8 kg&quot;,&quot;10 kg&quot;],a:1,t:&quot;Đo lường&quot;},
+{q:&quot;4 × 7 = ?&quot;,o:[&quot;24&quot;,&quot;28&quot;,&quot;32&quot;,&quot;21&quot;],a:1,t:&quot;Nhân 4&quot;},
+{q:&quot;40 ÷ 5 × 3 = ?&quot;,o:[&quot;18&quot;,&quot;24&quot;,&quot;30&quot;,&quot;12&quot;],a:1,t:&quot;Biểu thức&quot;},
+{q:&quot;1 giờ = ? phút&quot;,o:[&quot;30&quot;,&quot;100&quot;,&quot;60&quot;,&quot;45&quot;],a:2,t:&quot;Thời gian&quot;}
+],
+math_hard:[
+{q:&quot;28 + 37 + 15 = ?&quot;,o:[&quot;70&quot;,&quot;80&quot;,&quot;75&quot;,&quot;85&quot;],a:1,t:&quot;Cộng nhiều số&quot;},
+{q:&quot;5 × 7 − 3 × 5 = ?&quot;,o:[&quot;10&quot;,&quot;15&quot;,&quot;20&quot;,&quot;25&quot;],a:2,t:&quot;Biểu thức&quot;},
+{q:&quot;? × 4 = 36&quot;,o:[&quot;7&quot;,&quot;8&quot;,&quot;9&quot;,&quot;6&quot;],a:2,t:&quot;Tìm thừa số&quot;},
+{q:&quot;100 − 3 × 5 − 4 × 5 = ?&quot;,o:[&quot;65&quot;,&quot;55&quot;,&quot;75&quot;,&quot;45&quot;],a:0,t:&quot;Biểu thức&quot;},
+{q:&quot;Bao nhiêu số có 2 chữ số mà hàng chục là 5?&quot;,o:[&quot;9&quot;,&quot;10&quot;,&quot;11&quot;,&quot;8&quot;],a:1,t:&quot;Tư duy&quot;},
+{q:&quot;Mẹ có 45 quả cam, cho đi 18 quả. Còn?&quot;,o:[&quot;23&quot;,&quot;27&quot;,&quot;33&quot;,&quot;17&quot;],a:1,t:&quot;Giải toán&quot;},
+{q:&quot;Lớp có 32 HS nam, 28 HS nữ. Tổng?&quot;,o:[&quot;50&quot;,&quot;60&quot;,&quot;55&quot;,&quot;65&quot;],a:1,t:&quot;Giải toán&quot;},
+{q:&quot;An có 5 hộp bút, mỗi hộp 4 bút. Tổng?&quot;,o:[&quot;15&quot;,&quot;25&quot;,&quot;20&quot;,&quot;9&quot;],a:2,t:&quot;Giải toán&quot;},
+{q:&quot;HV cạnh 9cm. Chu vi = ?&quot;,o:[&quot;27cm&quot;,&quot;36cm&quot;,&quot;45cm&quot;,&quot;18cm&quot;],a:1,t:&quot;Hình học&quot;},
+{q:&quot;73 − 28 + 15 = ?&quot;,o:[&quot;60&quot;,&quot;50&quot;,&quot;55&quot;,&quot;65&quot;],a:0,t:&quot;Tính nhẩm&quot;},
+{q:&quot;8 giờ sáng + 3 giờ = ?&quot;,o:[&quot;10 giờ&quot;,&quot;12 giờ&quot;,&quot;11 giờ&quot;,&quot;9 giờ&quot;],a:2,t:&quot;Thời gian&quot;},
+{q:&quot;? + 37 = 82&quot;,o:[&quot;55&quot;,&quot;45&quot;,&quot;35&quot;,&quot;65&quot;],a:1,t:&quot;Tìm số hạng&quot;},
+{q:&quot;Chia 30 kẹo đều cho 5 bạn. Mỗi bạn?&quot;,o:[&quot;5&quot;,&quot;6&quot;,&quot;7&quot;,&quot;8&quot;],a:1,t:&quot;Giải toán&quot;},
+{q:&quot;4 × 4 + 3 × 4 = ?&quot;,o:[&quot;24&quot;,&quot;28&quot;,&quot;32&quot;,&quot;20&quot;],a:1,t:&quot;Biểu thức&quot;},
+{q:&quot;HCN dài 10cm rộng 5cm. Chu vi = ?&quot;,o:[&quot;15cm&quot;,&quot;20cm&quot;,&quot;30cm&quot;,&quot;50cm&quot;],a:2,t:&quot;Hình học&quot;},
+{q:&quot;5l + 3l − 2l = ?&quot;,o:[&quot;4l&quot;,&quot;6l&quot;,&quot;8l&quot;,&quot;10l&quot;],a:1,t:&quot;Đo lường&quot;},
+{q:&quot;Số lớn nhất có 2 chữ số?&quot;,o:[&quot;90&quot;,&quot;99&quot;,&quot;100&quot;,&quot;98&quot;],a:1,t:&quot;Tư duy&quot;},
+{q:&quot;3 × 9 + 2 × 9 = ?&quot;,o:[&quot;36&quot;,&quot;45&quot;,&quot;54&quot;,&quot;27&quot;],a:1,t:&quot;Biểu thức&quot;},
+{q:&quot;50 cm + 50 cm = ? m&quot;,o:[&quot;1&quot;,&quot;10&quot;,&quot;100&quot;,&quot;5&quot;],a:0,t:&quot;Đo lường&quot;},
+{q:&quot;2 × 2 × 5 = ?&quot;,o:[&quot;15&quot;,&quot;25&quot;,&quot;20&quot;,&quot;10&quot;],a:2,t:&quot;Biểu thức&quot;}
+],
+viet_easy:[
+{q:&quot;Từ nào viết đúng chính tả?&quot;,o:[&quot;sách sở&quot;,&quot;sách vở&quot;,&quot;xách vở&quot;,&quot;xách sở&quot;],a:1,t:&quot;Chính tả&quot;},
+{q:&quot;Từ trái nghĩa với &#x27;cao&#x27;?&quot;,o:[&quot;to&quot;,&quot;dài&quot;,&quot;thấp&quot;,&quot;rộng&quot;],a:2,t:&quot;Từ trái nghĩa&quot;},
+{q:&quot;Từ trái nghĩa với &#x27;nhanh&#x27;?&quot;,o:[&quot;chậm&quot;,&quot;mạnh&quot;,&quot;yếu&quot;,&quot;xa&quot;],a:0,t:&quot;Từ trái nghĩa&quot;},
+{q:&quot;Từ nào chỉ hoạt động?&quot;,o:[&quot;cái bàn&quot;,&quot;xanh tươi&quot;,&quot;chạy nhảy&quot;,&quot;con mèo&quot;],a:2,t:&quot;Từ loại&quot;},
+{q:&quot;Từ nào chỉ đặc điểm?&quot;,o:[&quot;chạy&quot;,&quot;ăn&quot;,&quot;xinh đẹp&quot;,&quot;trường&quot;],a:2,t:&quot;Từ loại&quot;},
+{q:&quot;Từ nào chỉ sự vật?&quot;,o:[&quot;chạy&quot;,&quot;đẹp&quot;,&quot;ngôi trường&quot;,&quot;nhanh&quot;],a:2,t:&quot;Từ loại&quot;},
+{q:&quot;Điền: ___ường học (tr/ch)?&quot;,o:[&quot;ch&quot;,&quot;tr&quot;,&quot;s&quot;,&quot;x&quot;],a:1,t:&quot;Chính tả&quot;},
+{q:&quot;Từ đồng nghĩa &#x27;xinh đẹp&#x27;?&quot;,o:[&quot;xấu xí&quot;,&quot;xinh xắn&quot;,&quot;cao lớn&quot;,&quot;thấp bé&quot;],a:1,t:&quot;Từ đồng nghĩa&quot;},
+{q:&quot;&#x27;Bạn An đang đọc sách.&#x27; – Ai đọc sách?&quot;,o:[&quot;Sách&quot;,&quot;Bạn An&quot;,&quot;Đọc&quot;,&quot;Đang&quot;],a:1,t:&quot;Bộ phận câu&quot;},
+{q:&quot;Từ trái nghĩa &#x27;vui&#x27;?&quot;,o:[&quot;khỏe&quot;,&quot;giàu&quot;,&quot;buồn&quot;,&quot;đẹp&quot;],a:2,t:&quot;Từ trái nghĩa&quot;},
+{q:&quot;Câu nào dùng dấu chấm hỏi?&quot;,o:[&quot;Em đi học.&quot;,&quot;Bạn khỏe không?&quot;,&quot;Đẹp quá!&quot;,&quot;Hãy ngồi.&quot;],a:1,t:&quot;Dấu câu&quot;},
+{q:&quot;Từ nào viết đúng? ___anh (đẹp)&quot;,o:[&quot;c&quot;,&quot;k&quot;,&quot;x&quot;,&quot;tr&quot;],a:0,t:&quot;Chính tả&quot;},
+{q:&quot;Điền: Con ___âu ăn cỏ.&quot;,o:[&quot;ch&quot;,&quot;tr&quot;,&quot;s&quot;,&quot;x&quot;],a:1,t:&quot;Chính tả&quot;},
+{q:&quot;&#x27;Mẹ em nấu cơm.&#x27; Ai nấu?&quot;,o:[&quot;Em&quot;,&quot;Cơm&quot;,&quot;Mẹ em&quot;,&quot;Nấu&quot;],a:2,t:&quot;Bộ phận câu&quot;},
+{q:&quot;Từ đồng nghĩa &#x27;chăm chỉ&#x27;?&quot;,o:[&quot;lười biếng&quot;,&quot;siêng năng&quot;,&quot;vui vẻ&quot;,&quot;buồn&quot;],a:1,t:&quot;Từ đồng nghĩa&quot;},
+{q:&quot;Từ nào viết đúng?&quot;,o:[&quot;ngày xưa&quot;,&quot;ngày sưa&quot;,&quot;ngài xưa&quot;,&quot;ngày xua&quot;],a:0,t:&quot;Chính tả&quot;},
+{q:&quot;Câu nào dùng dấu chấm than?&quot;,o:[&quot;Em đi học.&quot;,&quot;Bạn ở đâu?&quot;,&quot;Đẹp quá!&quot;,&quot;Mẹ nấu cơm.&quot;],a:2,t:&quot;Dấu câu&quot;},
+{q:&quot;Từ trái nghĩa &#x27;khỏe&#x27;?&quot;,o:[&quot;mạnh&quot;,&quot;yếu&quot;,&quot;giỏi&quot;,&quot;nhanh&quot;],a:1,t:&quot;Từ trái nghĩa&quot;},
+{q:&quot;Từ đồng nghĩa &#x27;giúp đỡ&#x27;?&quot;,o:[&quot;phá hoại&quot;,&quot;hỗ trợ&quot;,&quot;ngăn cản&quot;,&quot;trêu&quot;],a:1,t:&quot;Từ đồng nghĩa&quot;},
+{q:&quot;Điền: Cây ___anh tốt.&quot;,o:[&quot;s&quot;,&quot;x&quot;,&quot;r&quot;,&quot;d&quot;],a:1,t:&quot;Chính tả&quot;},
+{q:&quot;Từ nào chỉ hoạt động?&quot;,o:[&quot;vui vẻ&quot;,&quot;to lớn&quot;,&quot;viết bài&quot;,&quot;ngôi nhà&quot;],a:2,t:&quot;Từ loại&quot;},
+{q:&quot;Từ trái nghĩa &#x27;to&#x27;?&quot;,o:[&quot;lớn&quot;,&quot;nhỏ&quot;,&quot;cao&quot;,&quot;dài&quot;],a:1,t:&quot;Từ trái nghĩa&quot;},
+{q:&quot;&#x27;Em bé đang ngủ.&#x27; Em bé làm gì?&quot;,o:[&quot;Khóc&quot;,&quot;Chơi&quot;,&quot;Đang ngủ&quot;,&quot;Ăn&quot;],a:2,t:&quot;Bộ phận câu&quot;},
+{q:&quot;Từ nào viết đúng?&quot;,o:[&quot;con châu&quot;,&quot;con trâu&quot;,&quot;con chrâu&quot;,&quot;con râu&quot;],a:1,t:&quot;Chính tả&quot;},
+{q:&quot;Điền: Em ___eo cặp đi học.&quot;,o:[&quot;đ&quot;,&quot;d&quot;,&quot;gi&quot;,&quot;r&quot;],a:0,t:&quot;Chính tả&quot;}
+],
+viet_medium:[
+{q:&quot;Từ nào là từ láy?&quot;,o:[&quot;nhà cửa&quot;,&quot;bàn ghế&quot;,&quot;xinh xắn&quot;,&quot;sách vở&quot;],a:2,t:&quot;Từ loại&quot;},
+{q:&quot;Từ nào là từ ghép?&quot;,o:[&quot;lung linh&quot;,&quot;lấp lánh&quot;,&quot;sách vở&quot;,&quot;long lanh&quot;],a:2,t:&quot;Từ loại&quot;},
+{q:&quot;Đặt dấu: &#x27;Ôi đẹp quá___&#x27;&quot;,o:[&quot;.&quot;,&quot;?&quot;,&quot;!&quot;,&quot;,&quot;],a:2,t:&quot;Dấu câu&quot;},
+{q:&quot;&#x27;Bầu trời xanh biếc.&#x27; Từ chỉ đặc điểm?&quot;,o:[&quot;bầu trời&quot;,&quot;xanh biếc&quot;,&quot;trời&quot;,&quot;bầu&quot;],a:1,t:&quot;Từ loại&quot;},
+{q:&quot;Thành ngữ nói về chăm học?&quot;,o:[&quot;Ăn cháo đá bát&quot;,&quot;Kiến tha lâu đầy tổ&quot;,&quot;Nước chảy đá mòn&quot;,&quot;Học một biết mười&quot;],a:1,t:&quot;Thành ngữ&quot;},
+{q:&quot;&#x27;Đi một ngày đàng...&#x27;&quot;,o:[&quot;học một sàng khôn&quot;,&quot;biết mười sàng&quot;,&quot;được bao vàng&quot;,&quot;ăn bữa no&quot;],a:0,t:&quot;Thành ngữ&quot;},
+{q:&quot;Từ nào viết đúng?&quot;,o:[&quot;giặc giũ&quot;,&quot;giặt giũ&quot;,&quot;dặt dũ&quot;,&quot;rặt rũ&quot;],a:1,t:&quot;Chính tả&quot;},
+{q:&quot;Điền: &#x27;___ồng hoa nở rực.&#x27;&quot;,o:[&quot;D&quot;,&quot;Gi&quot;,&quot;V&quot;,&quot;R&quot;],a:2,t:&quot;Chính tả&quot;},
+{q:&quot;Câu nào là câu hỏi?&quot;,o:[&quot;Trời đẹp.&quot;,&quot;Bạn thích vẽ không?&quot;,&quot;Em học bài.&quot;,&quot;Giữ gìn sức khỏe!&quot;],a:1,t:&quot;Kiểu câu&quot;},
+{q:&quot;&#x27;Con mèo đuổi chuột.&#x27; Từ chỉ HĐ?&quot;,o:[&quot;con mèo&quot;,&quot;con chuột&quot;,&quot;đuổi&quot;,&quot;của&quot;],a:2,t:&quot;Từ loại&quot;},
+{q:&quot;Từ trái nghĩa &#x27;chăm chỉ&#x27;?&quot;,o:[&quot;siêng năng&quot;,&quot;cần cù&quot;,&quot;lười biếng&quot;,&quot;giỏi giang&quot;],a:2,t:&quot;Từ trái nghĩa&quot;},
+{q:&quot;&#x27;Mẹ hiền như ___.&#x27;&quot;,o:[&quot;cô Tấm&quot;,&quot;tiên&quot;,&quot;bụt&quot;,&quot;hoa&quot;],a:1,t:&quot;So sánh&quot;},
+{q:&quot;Từ đồng nghĩa &#x27;can đảm&#x27;?&quot;,o:[&quot;nhút nhát&quot;,&quot;dũng cảm&quot;,&quot;hiền lành&quot;,&quot;yếu đuối&quot;],a:1,t:&quot;Từ đồng nghĩa&quot;},
+{q:&quot;Loại từ: &#x27;cái, con, chiếc, bức&#x27;?&quot;,o:[&quot;Sự vật&quot;,&quot;Hoạt động&quot;,&quot;Đặc điểm&quot;,&quot;Loại từ&quot;],a:3,t:&quot;Từ loại&quot;},
+{q:&quot;Từ nào viết đúng?&quot;,o:[&quot;giữ lành&quot;,&quot;dữ gìn&quot;,&quot;giữ gìn&quot;,&quot;dữ lành&quot;],a:2,t:&quot;Chính tả&quot;},
+{q:&quot;Từ nào là từ láy?&quot;,o:[&quot;quần áo&quot;,&quot;đẹp đẽ&quot;,&quot;bàn ghế&quot;,&quot;cha mẹ&quot;],a:1,t:&quot;Từ loại&quot;},
+{q:&quot;Điền: &#x27;Chú ___ống kêu ò ó o.&#x27;&quot;,o:[&quot;g&quot;,&quot;c&quot;,&quot;d&quot;,&quot;t&quot;],a:0,t:&quot;Chính tả&quot;},
+{q:&quot;Câu đúng chính tả?&quot;,o:[&quot;em yêu mẹ.&quot;,&quot;Em yêu mẹ.&quot;,&quot;em Yêu mẹ.&quot;,&quot;Em yêu Mẹ.&quot;],a:1,t:&quot;Viết câu&quot;},
+{q:&quot;Từ đồng nghĩa &#x27;quê hương&#x27;?&quot;,o:[&quot;nước ngoài&quot;,&quot;quê nhà&quot;,&quot;thành phố&quot;,&quot;xa lạ&quot;],a:1,t:&quot;Từ đồng nghĩa&quot;},
+{q:&quot;Thành ngữ: &#x27;Có công mài sắt...&#x27;&quot;,o:[&quot;có ngày nên kim&quot;,&quot;nên vàng&quot;,&quot;nên giàu&quot;,&quot;nên vua&quot;],a:0,t:&quot;Thành ngữ&quot;}
+],
+viet_hard:[
+{q:&quot;Thành ngữ nào về đoàn kết?&quot;,o:[&quot;Một cây làm chẳng nên non&quot;,&quot;Ăn quả nhớ kẻ trồng cây&quot;,&quot;Có công mài sắt&quot;,&quot;Tốt gỗ hơn tốt nước sơn&quot;],a:0,t:&quot;Thành ngữ&quot;},
+{q:&quot;&#x27;Trường em rất đẹp.&#x27; – Cái gì đẹp?&quot;,o:[&quot;Em&quot;,&quot;Đẹp&quot;,&quot;Rất&quot;,&quot;Trường em&quot;],a:3,t:&quot;Bộ phận câu&quot;},
+{q:&quot;Kiểu câu: &#x27;Bạn tên gì?&#x27;&quot;,o:[&quot;Câu kể&quot;,&quot;Câu hỏi&quot;,&quot;Câu cầu khiến&quot;,&quot;Câu cảm thán&quot;],a:1,t:&quot;Kiểu câu&quot;},
+{q:&quot;&#x27;Bà kể chuyện cho em.&#x27; Ai kể?&quot;,o:[&quot;Em&quot;,&quot;Chuyện&quot;,&quot;Bà&quot;,&quot;Nghe&quot;],a:2,t:&quot;Bộ phận câu&quot;},
+{q:&quot;Điền: &#x27;___iêng năng làm việc.&#x27;&quot;,o:[&quot;X&quot;,&quot;S&quot;,&quot;R&quot;,&quot;D&quot;],a:1,t:&quot;Chính tả&quot;},
+{q:&quot;&#x27;Rừng vàng biển bạc&#x27; nghĩa là?&quot;,o:[&quot;Rừng biển giàu tài nguyên&quot;,&quot;Rừng màu vàng&quot;,&quot;Biển màu bạc&quot;,&quot;Không nghĩa&quot;],a:0,t:&quot;Thành ngữ&quot;},
+{q:&quot;Từ nào viết đúng?&quot;,o:[&quot;trả vờ&quot;,&quot;giả vờ&quot;,&quot;dả vờ&quot;,&quot;rả vờ&quot;],a:1,t:&quot;Chính tả&quot;},
+{q:&quot;Thành ngữ: &#x27;Anh em như thể...&#x27;&quot;,o:[&quot;tay chân&quot;,&quot;mắt mũi&quot;,&quot;đầu cổ&quot;,&quot;vai cánh&quot;],a:0,t:&quot;Thành ngữ&quot;},
+{q:&quot;&#x27;Công cha như núi...&#x27;&quot;,o:[&quot;Thái Sơn&quot;,&quot;Trường Sơn&quot;,&quot;Bạch Mã&quot;,&quot;Ngũ Hành&quot;],a:0,t:&quot;Thành ngữ&quot;},
+{q:&quot;Câu so sánh nào đúng?&quot;,o:[&quot;Trời xanh như biếc.&quot;,&quot;Mặt trăng tròn như quả bóng.&quot;,&quot;Em khỏe như bàn.&quot;,&quot;Cây cao là đẹp.&quot;],a:1,t:&quot;So sánh&quot;},
+{q:&quot;Điền: &#x27;Cánh đồng ___ộng mênh mông.&#x27;&quot;,o:[&quot;d&quot;,&quot;r&quot;,&quot;gi&quot;,&quot;l&quot;],a:1,t:&quot;Chính tả&quot;},
+{q:&quot;Từ nào KHÔNG phải từ láy?&quot;,o:[&quot;lấp lánh&quot;,&quot;long lanh&quot;,&quot;sách vở&quot;,&quot;lung linh&quot;],a:2,t:&quot;Từ loại&quot;},
+{q:&quot;&#x27;Đẹp như tranh&#x27; dùng biện pháp gì?&quot;,o:[&quot;Nhân hóa&quot;,&quot;So sánh&quot;,&quot;Điệp từ&quot;,&quot;Liệt kê&quot;],a:1,t:&quot;Tu từ&quot;},
+{q:&quot;Từ trái nghĩa &#x27;đoàn kết&#x27;?&quot;,o:[&quot;gắn bó&quot;,&quot;chia rẽ&quot;,&quot;thương yêu&quot;,&quot;giúp đỡ&quot;],a:1,t:&quot;Từ trái nghĩa&quot;},
+{q:&quot;Điền: &#x27;___ập thể dục buổi sáng.&#x27;&quot;,o:[&quot;T&quot;,&quot;Th&quot;,&quot;Tr&quot;,&quot;Ch&quot;],a:0,t:&quot;Chính tả&quot;},
+{q:&quot;&#x27;Gió thổi vi vu.&#x27; – Từ tả âm thanh?&quot;,o:[&quot;gió&quot;,&quot;thổi&quot;,&quot;vi vu&quot;,&quot;cả câu&quot;],a:2,t:&quot;Từ vựng&quot;},
+{q:&quot;Từ đồng nghĩa &#x27;dũng cảm&#x27;?&quot;,o:[&quot;nhút nhát&quot;,&quot;can đảm&quot;,&quot;hiền lành&quot;,&quot;nhu mì&quot;],a:1,t:&quot;Từ đồng nghĩa&quot;},
+{q:&quot;Thành ngữ: &#x27;Uống nước nhớ...&#x27;&quot;,o:[&quot;nguồn&quot;,&quot;suối&quot;,&quot;sông&quot;,&quot;biển&quot;],a:0,t:&quot;Thành ngữ&quot;},
+{q:&quot;&#x27;Cô giáo em hiền dịu.&#x27; Từ chỉ đặc điểm?&quot;,o:[&quot;cô giáo&quot;,&quot;em&quot;,&quot;hiền dịu&quot;,&quot;cô&quot;],a:2,t:&quot;Từ loại&quot;},
+{q:&quot;Từ nào viết đúng?&quot;,o:[&quot;xanh xao&quot;,&quot;sanh sao&quot;,&quot;xanh sao&quot;,&quot;sanh xao&quot;],a:0,t:&quot;Chính tả&quot;}
+]
+};
+let cfg={level:0},st={};
+function selectLevel(lv){cfg.level=lv;document.querySelectorAll(&#x27;.level-btn&#x27;).forEach((b,i)=&gt;{b.classList.toggle(&#x27;active&#x27;,i===lv)})}
+function getPool(){
+  let sub=document.getElementById(&#x27;subjectSelect&#x27;).value;
+  let lv=cfg.level;
+  let pool=[];
+  if(sub===&#x27;math&#x27;||sub===&#x27;mix&#x27;){
+    if(lv&lt;=1)pool=pool.concat(QBank.math_easy);
+    if(lv&gt;=1)pool=pool.concat(QBank.math_medium);
+    if(lv&gt;=2)pool=pool.concat(QBank.math_hard);
+  }
+  if(sub===&#x27;viet&#x27;||sub===&#x27;mix&#x27;){
+    if(lv&lt;=1)pool=pool.concat(QBank.viet_easy);
+    if(lv&gt;=1)pool=pool.concat(QBank.viet_medium);
+    if(lv&gt;=2)pool=pool.concat(QBank.viet_hard);
+  }
+  return shuffle(pool);
+}
+function startGame(){
+  let L=LEVELS[cfg.level];
+  let pool=getPool();
+  st={questions:pool.slice(0,L.total),qIdx:0,score:0,lives:L.lives,maxLives:L.lives,answered:false,streak:0,maxStreak:0};
+  document.getElementById(&#x27;setupScreen&#x27;).classList.add(&#x27;hidden&#x27;);
+  document.getElementById(&#x27;resultScreen&#x27;).classList.add(&#x27;hidden&#x27;);
+  document.getElementById(&#x27;gameScreen&#x27;).classList.remove(&#x27;hidden&#x27;);
+  showQ();
+}
+function updateLives(){let h=&#x27;&#x27;;for(let i=0;i&lt;st.maxLives;i++)h+=i&lt;st.lives?&#x27;❤️&#x27;:&#x27;🖤&#x27;;document.getElementById(&#x27;livesDisplay&#x27;).innerHTML=h}
+function showQ(){
+  if(st.qIdx&gt;=st.questions.length||st.lives&lt;=0){showResults();return}
+  st.answered=false;
+  let L=LEVELS[cfg.level];
+  let q=st.questions[st.qIdx];
+  let pct=((st.qIdx)/st.questions.length*100);
+  document.getElementById(&#x27;progFill&#x27;).style.width=pct+&#x27;%&#x27;;
+  document.getElementById(&#x27;progText&#x27;).textContent=(st.qIdx+1)+&#x27;/&#x27;+st.questions.length;
+  document.getElementById(&#x27;levelLabel&#x27;).textContent=L.name;
+  document.getElementById(&#x27;levelLabel&#x27;).style.color=L.color;
+  document.getElementById(&#x27;scoreLabel&#x27;).textContent=&#x27;⭐ &#x27;+st.score;
+  document.getElementById(&#x27;roundInfo&#x27;).textContent=(st.qIdx+1)+&#x27;/&#x27;+st.questions.length;
+  document.getElementById(&#x27;qLevel&#x27;).textContent=L.name;
+  document.getElementById(&#x27;qLevel&#x27;).style.background=L.bg;
+  document.getElementById(&#x27;qLevel&#x27;).style.color=L.color;
+  document.getElementById(&#x27;qTopic&#x27;).textContent=q.t;
+  document.getElementById(&#x27;qText&#x27;).textContent=q.q;
+  document.getElementById(&#x27;feedback&#x27;).textContent=&#x27;&#x27;;
+  document.getElementById(&#x27;feedback&#x27;).className=&#x27;feedback&#x27;;
+  document.getElementById(&#x27;qCard&#x27;).className=&#x27;q-card&#x27;;
+  document.getElementById(&#x27;btnNext&#x27;).style.display=&#x27;none&#x27;;
+  updateLives();
+  let og=document.getElementById(&#x27;optionsGrid&#x27;);og.innerHTML=&#x27;&#x27;;
+  q.o.forEach((opt,idx)=&gt;{let b=document.createElement(&#x27;button&#x27;);b.className=&#x27;option-btn&#x27;;b.textContent=opt;b.onclick=()=&gt;answer(idx);og.appendChild(b)});
+}
+function answer(idx){
+  if(st.answered)return;st.answered=true;
+  let q=st.questions[st.qIdx];let btns=document.querySelectorAll(&#x27;.option-btn&#x27;);
+  let fb=document.getElementById(&#x27;feedback&#x27;);let card=document.getElementById(&#x27;qCard&#x27;);
+  btns[q.a].classList.add(&#x27;correct&#x27;);
+  let bonus=cfg.level&gt;=2?15:10;
+  if(idx===q.a){
+    st.streak++;if(st.streak&gt;st.maxStreak)st.maxStreak=st.streak;
+    let streakBonus=st.streak&gt;=3?5:0;
+    st.score+=bonus+streakBonus;
+    fb.className=&#x27;feedback correct&#x27;;
+    fb.textContent=&#x27;🎉 Đúng! +&#x27;+(bonus+streakBonus)+(streakBonus?&#x27; (🔥 combo!)&#x27;:&#x27;&#x27;);
+    sndOk();card.classList.add(&#x27;flash-correct&#x27;);
+  }else{
+    st.streak=0;st.lives--;
+    btns[idx].classList.add(&#x27;wrong&#x27;);
+    fb.className=&#x27;feedback wrong&#x27;;
+    fb.textContent=st.lives&gt;0?&#x27;❌ Sai! Còn &#x27;+st.lives+&#x27; ❤️&#x27;:&#x27;❌ Sai! Hết mạng!&#x27;;
+    sndNo();card.classList.add(&#x27;flash-wrong&#x27;);
+    updateLives();
+  }
+  document.getElementById(&#x27;scoreLabel&#x27;).textContent=&#x27;⭐ &#x27;+st.score;
+  st.qIdx++;
+  if(st.lives&lt;=0)setTimeout(showResults,1200);
+  else document.getElementById(&#x27;btnNext&#x27;).style.display=&#x27;&#x27;;
+}
+function nextQ(){showQ()}
+function showResults(){
+  document.getElementById(&#x27;gameScreen&#x27;).classList.add(&#x27;hidden&#x27;);
+  document.getElementById(&#x27;resultScreen&#x27;).classList.remove(&#x27;hidden&#x27;);
+  let L=LEVELS[cfg.level];
+  let total=st.questions.length;
+  let correct=Math.round(st.score/(cfg.level&gt;=2?15:10));
+  let pct=Math.round(correct/total*100);
+  let stars=pct&gt;=90?&#x27;⭐⭐⭐&#x27;:pct&gt;=70?&#x27;⭐⭐&#x27;:pct&gt;=50?&#x27;⭐&#x27;:&#x27;&#x27;;
+  let ranks=[&#x27;Tập sự&#x27;,&#x27;Tú tài&#x27;,&#x27;Cử nhân&#x27;,&#x27;Trạng nguyên&#x27;];
+  let icons=[&#x27;🌱&#x27;,&#x27;📜&#x27;,&#x27;🎓&#x27;,&#x27;👑&#x27;];
+  let rankIdx=pct&gt;=90?3:pct&gt;=70?2:pct&gt;=50?1:0;
+  document.getElementById(&#x27;rankIcon&#x27;).textContent=icons[rankIdx];
+  document.getElementById(&#x27;resultRank&#x27;).textContent=&#x27;🎖️ Danh hiệu: &#x27;+ranks[rankIdx];
+  document.getElementById(&#x27;resultStars&#x27;).textContent=stars||&#x27;Chưa đạt sao&#x27;;
+  document.getElementById(&#x27;resultStats&#x27;).innerHTML=&#x27;Cấp độ: &#x27;+L.name+&#x27;&lt;br&gt;Điểm: &#x27;+st.score+&#x27;&lt;br&gt;Chuỗi combo dài nhất: 🔥 &#x27;+st.maxStreak;
+  let lvUp=document.getElementById(&#x27;levelUpMsg&#x27;);
+  if(pct&gt;=80&amp;&amp;cfg.level&lt;3){lvUp.innerHTML=&#x27;&lt;div class=&quot;level-up&quot;&gt;🎉 Mở khóa cấp độ tiếp theo!&lt;/div&gt;&#x27;;sndLevelUp()}
+  else lvUp.innerHTML=&#x27;&#x27;;
+  sndWin();
+  let colors=[&#x27;#f59e0b&#x27;,&#x27;#22c55e&#x27;,&#x27;#3b82f6&#x27;,&#x27;#8b5cf6&#x27;,&#x27;#ec4899&#x27;,&#x27;#06b6d4&#x27;];
+  for(let i=0;i&lt;45;i++){let p=document.createElement(&#x27;div&#x27;);p.className=&#x27;confetti-piece&#x27;;p.style.left=Math.random()*100+&#x27;vw&#x27;;p.style.background=colors[Math.floor(Math.random()*colors.length)];p.style.setProperty(&#x27;--fall-duration&#x27;,(2+Math.random()*3)+&#x27;s&#x27;);p.style.setProperty(&#x27;--rotation&#x27;,(Math.random()*720-360)+&#x27;deg&#x27;);p.style.animationDelay=Math.random()*2+&#x27;s&#x27;;p.style.borderRadius=Math.random()&gt;.5?&#x27;50%&#x27;:&#x27;2px&#x27;;p.style.width=(6+Math.random()*8)+&#x27;px&#x27;;p.style.height=(8+Math.random()*14)+&#x27;px&#x27;;document.body.appendChild(p);setTimeout(()=&gt;p.remove(),5000)}
+}
+function resetAll(){document.getElementById(&#x27;setupScreen&#x27;).classList.remove(&#x27;hidden&#x27;);document.getElementById(&#x27;gameScreen&#x27;).classList.add(&#x27;hidden&#x27;);document.getElementById(&#x27;resultScreen&#x27;).classList.add(&#x27;hidden&#x27;)}
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</textarea>
+
 
 <div class="ov" id="ov"><iframe id="gf" sandbox="allow-scripts allow-same-origin"></iframe></div>
 <button class="cb" id="cb" onclick="closeGame()">✕</button>
@@ -1177,12 +1559,20 @@ function resetAll(){document.getElementById(&#x27;setupScreen&#x27;).classList.r
     <div class="gi g1">🧩<span>Ghép nối</span></div>
     <div class="gi g2">⏱️<span>Tốc độ</span></div>
     <div class="gi g3">🏎️<span>Đua xe</span></div>
-    <div class="gi g4">✖️<span>Nhân chia</span></div>
-    <div class="gi g5">🔤<span>Chính tả</span></div>
-    <div class="gi g6">📝<span>Từ vựng</span></div>
-    <div class="gi g7">⭐<span>Ngôi sao</span></div>
+    <div class="gi g4">🎡<span>Vòng quay</span></div>
+    <div class="gi g5">🧠<span>Trí tuệ</span></div>
+    <div class="gi g6">🛒<span>Mua sắm</span></div>
+    <div class="gi g7">🏰<span>Phiêu lưu</span></div>
   </div>
   <div class="cards">
+    <!-- ĐẤU TRƯỜNG TRI THỨC -->
+    <div class="card" style="background:linear-gradient(145deg,#fffbeb,#fef3c7,#fde68a);border:3px solid #f59e0b;grid-column:1/-1;max-width:100%">
+      <div class="ch"><div class="ci" style="background:linear-gradient(135deg,#f59e0b,#d97706);width:56px;height:56px;border-radius:16px;font-size:1.8em">🏆</div>
+        <div><div class="ct" style="color:#92400e;font-size:1.2em">⚔️ ĐẤU TRƯỜNG TRI THỨC</div>
+        <div class="cs-t">Trạng nguyên nhí • 200+ câu Toán + 200+ câu Tiếng Việt • 4 cấp độ</div></div></div>
+      <button class="pb" style="background:linear-gradient(135deg,#f59e0b,#d97706);box-shadow:0 4px 20px rgba(217,119,6,.3);font-size:1.2em;padding:16px" onclick="openGame(7,'⚔️ Đấu Trường Tri Thức')">⚔️ VÀO ĐẤU TRƯỜNG</button>
+    </div>
+
     <div class="card card-math">
       <div class="ch"><div class="ci">🔢</div>
         <div><div class="ct">Trò chơi tương tác<br>Dạy Học TOÁN 2</div>
@@ -1219,6 +1609,9 @@ function resetAll(){document.getElementById(&#x27;setupScreen&#x27;).classList.r
         <div><div class="ct" style="color:#065f46">Tự nhiên & Xã hội<br>TNXH Lớp 2</div>
         <div class="cs-t">📘 Kết nối tri thức với cuộc sống</div></div></div>
       <div class="gc" style="background:rgba(5,150,105,.1);color:#065f46">🌿 3 chủ đề • Cơ thể, Động vật, Trái Đất</div>
+      <div class="cd">Trò chơi trắc nghiệm khoa học tự nhiên & xã hội. Chọn chủ đề (cơ thể & sức khỏe, động vật & thực vật, Trái Đất & bầu trời), số câu hỏi. Phù hợp ôn tập kiến thức TNXH.</div>
+      <div class="dt" onclick="toggleList(this)" style="border-color:#34d399">📋 Xem danh sách chủ đề <span class="ta">▼</span></div>
+      <div class="dl" id="tL"></div>
       <button class="pb" style="background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 4px 15px rgba(5,150,105,.25)" onclick="openGame(4,'🌿 TNXH Lớp 2')">🚀 CHƠI NGAY</button>
     </div>
     <div class="card" style="background:linear-gradient(145deg,#fefce8,#fef3c7,#fde68a);border:2px solid #f59e0b">
@@ -1226,6 +1619,9 @@ function resetAll(){document.getElementById(&#x27;setupScreen&#x27;).classList.r
         <div><div class="ct" style="color:#92400e">Tiếng Việt – Cánh Diều<br>TV Lớp 2</div>
         <div class="cs-t">📕 Bộ sách Cánh Diều</div></div></div>
       <div class="gc" style="background:rgba(217,119,6,.1);color:#92400e">🌈 4 chủ đề • Gia đình, Trường học, Thiên nhiên, Chính tả</div>
+      <div class="cd">Trò chơi trắc nghiệm theo bộ sách Cánh Diều. 4 chủ đề: gia đình (tình cảm, thành ngữ), trường học (đạo đức, từ vựng), thiên nhiên (miêu tả, từ láy), chính tả tổng hợp (s/x, tr/ch, d/gi).</div>
+      <div class="dt" onclick="toggleList(this)" style="border-color:#f59e0b">📋 Xem danh sách chủ đề <span class="ta">▼</span></div>
+      <div class="dl" id="cdL"></div>
       <button class="pb" style="background:linear-gradient(135deg,#f59e0b,#d97706);box-shadow:0 4px 15px rgba(217,119,6,.25)" onclick="openGame(5,'🌈 TV Cánh Diều')">🚀 CHƠI NGAY</button>
     </div>
     <div class="card" style="background:linear-gradient(145deg,#ede9fe,#ddd6fe,#c4b5fd);border:2px solid #8b5cf6">
@@ -1233,6 +1629,9 @@ function resetAll(){document.getElementById(&#x27;setupScreen&#x27;).classList.r
         <div><div class="ct" style="color:#5b21b6">English – Grade 2<br>Tiếng Anh Lớp 2</div>
         <div class="cs-t">Vocabulary, Grammar, Reading</div></div></div>
       <div class="gc" style="background:rgba(124,58,237,.1);color:#5b21b6">🇬🇧 3 topics • Family, Body, Grammar</div>
+      <div class="cd">Fun English quiz for Grade 2. Topics: Vocabulary (Family, Body parts, Food), Grammar (verb to be, this/that, a/an), Reading comprehension. 45 questions total.</div>
+      <div class="dt" onclick="toggleList(this)" style="border-color:#8b5cf6">📋 View topics <span class="ta">▼</span></div>
+      <div class="dl" id="eL"></div>
       <button class="pb" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed);box-shadow:0 4px 15px rgba(124,58,237,.25)" onclick="openGame(6,'🇬🇧 English G2')">🚀 PLAY NOW</button>
     </div>
   </div>
@@ -1248,7 +1647,10 @@ var mathGames=[{e:"➕",n:"Cộng có nhớ (trong 100)",t:"Phép cộng nâng c
 var vietGames=[{e:"🔤",n:"Mở rộng vốn từ",t:"Nối từ với nghĩa",b:"e"},{e:"⚖️",n:"Từ trái nghĩa",t:"to–nhỏ, cao–thấp…",b:"e"},{e:"🤝",n:"Từ đồng nghĩa",t:"xinh đẹp–xinh xắn…",b:"m"},{e:"✏️",n:"Chính tả (phụ âm đầu)",t:"tr/ch, s/x, d/gi…",b:"m"},{e:"📝",n:"Bộ phận câu (Ai? Làm gì?)",t:"Nhận biết chủ ngữ, vị ngữ",b:"m"}];
 var raceGames=[{e:"🔢",n:"Bộ Toán Lớp 2",t:"25 câu trắc nghiệm",b:"e"},{e:"📖",n:"Bộ Tiếng Việt Lớp 2",t:"25 câu trắc nghiệm",b:"e"},{e:"🎲",n:"Bộ Hỗn hợp",t:"50 câu Toán + TV",b:"m"},{e:"🏆",n:"Toán nâng cao Lớp 2",t:"25 câu khó",b:"h"},{e:"🏆",n:"TV nâng cao Lớp 2",t:"25 câu thành ngữ, từ loại",b:"h"}];
 function buildList(cid,items,gid){var c=document.getElementById(cid);var h='';for(var i=0;i<items.length;i++){var it=items[i];var badge=it.b==='e'?'be':it.b==='h'?'bh':'bm';var label=it.b==='e'?'Dễ':it.b==='h'?'Khó':'TB';h+='<div class="item" onclick="openGame('+gid+',\''+it.e+' '+it.n.replace(/'/g,"\\'")+'\')">'+'<div class="in">'+(i+1)+'</div><div class="ie">'+it.e+'</div><div class="ii"><div class="iname">'+it.n+'</div><div class="itopic">'+it.t+'</div></div><div class="ib '+badge+'">'+label+'</div><div class="pa">▶ Chơi</div></div>';if(i<items.length-1)h+='<div class="sep"></div>'}c.innerHTML=h}
-buildList('mL',mathGames,1);buildList('vL',vietGames,2);buildList('rL',raceGames,3);
+var tnxhGames=[{e:"🏃",n:"Cơ thể người & sức khỏe",t:"Tim, phổi, giác quan…",b:"e"},{e:"🐾",n:"Động vật & thực vật",t:"Đẻ trứng, rễ, lá, côn trùng…",b:"e"},{e:"🌍",n:"Trái Đất & bầu trời",t:"Ngày đêm, mùa, mây, mưa…",b:"m"}];
+var cdGames=[{e:"👨‍👩‍👧",n:"Gia đình",t:"Tình cảm, thành ngữ",b:"e"},{e:"🏫",n:"Trường học",t:"Đạo đức, từ vựng",b:"e"},{e:"🌿",n:"Thiên nhiên",t:"Miêu tả, từ láy, so sánh",b:"m"},{e:"✏️",n:"Chính tả tổng hợp",t:"s/x, tr/ch, d/gi, vần…",b:"m"}];
+var engGames=[{e:"📦",n:"Vocabulary (Family, Body, Food)",t:"15 questions",b:"e"},{e:"📝",n:"Grammar (Verb to be, This/That)",t:"15 questions",b:"m"},{e:"📖",n:"Reading & Comprehension",t:"15 questions",b:"e"}];
+buildList('mL',mathGames,1);buildList('vL',vietGames,2);buildList('rL',raceGames,3);buildList('tL',tnxhGames,4);buildList('cdL',cdGames,5);buildList('eL',engGames,6);
 function toggleList(btn){var list=btn.nextElementSibling;var wasOpen=btn.classList.contains('open');var allBtns=document.querySelectorAll('.dt.open');for(var i=0;i<allBtns.length;i++){if(allBtns[i]!==btn){allBtns[i].classList.remove('open');allBtns[i].nextElementSibling.classList.remove('open')}}btn.classList.toggle('open');list.classList.toggle('open')}
 var cards=document.querySelectorAll('.card');for(var i=0;i<cards.length;i++){(function(card){card.addEventListener('mousemove',function(e){var r=card.getBoundingClientRect();var x=(e.clientX-r.left)/r.width-.5;var y=(e.clientY-r.top)/r.height-.5;card.style.transform='perspective(700px) rotateY('+(x*8)+'deg) rotateX('+(-y*8)+'deg) translateY(-6px) scale(1.015)'});card.addEventListener('mouseleave',function(){card.style.transform=''})})(cards[i])}
 </script>

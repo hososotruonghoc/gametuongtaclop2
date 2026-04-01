@@ -1544,6 +1544,777 @@ function resetAll(){document.getElementById(&#x27;setupScreen&#x27;).classList.r
 </textarea>
 
 
+
+<textarea id="game8" style="display:none">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;vi&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;Vòng Quay May Mắn – Lớp 2&lt;/title&gt;
+&lt;style&gt;
+@import url(&#x27;https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&amp;family=Nunito:wght@400;600;700;800&amp;display=swap&#x27;);
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:&#x27;Nunito&#x27;,sans-serif;background:linear-gradient(180deg,#fde5c0 0%,#fcd9a8 30%,#f8c794 60%,#f5bc84 100%);min-height:100vh;color:#1e293b}
+.page{max-width:960px;margin:0 auto;padding:16px;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+h1{font-family:&#x27;Baloo 2&#x27;,cursive;font-size:clamp(1.8em,5vw,2.6em);text-align:center;color:#c2410c;margin:6px 0 2px}
+.sub{text-align:center;font-size:1em;color:#78350f;margin-bottom:14px;font-weight:600}
+.setup{background:rgba(255,255,255,.92);border-radius:24px;padding:28px;width:100%;max-width:480px;box-shadow:0 8px 32px rgba(0,0,0,.08);border:2px solid #fed7aa}
+.setup label{display:block;font-weight:700;font-size:1em;margin:12px 0 5px;color:#c2410c}
+.setup select{width:100%;padding:13px 16px;border-radius:12px;border:2px solid #e2e8f0;font-size:1em;font-family:&#x27;Nunito&#x27;,sans-serif;font-weight:600;background:#fafafa;outline:none;color:#334155}
+.setup select:focus{border-color:#f59e0b}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:14px 28px;border:none;border-radius:14px;font-family:&#x27;Baloo 2&#x27;,cursive;font-size:1.1em;cursor:pointer;transition:all .3s;box-shadow:0 4px 15px rgba(0,0,0,.1)}
+.btn:hover{transform:translateY(-2px)}.btn:active{transform:translateY(0)}
+.btn-go{background:linear-gradient(135deg,#ea580c,#c2410c);color:white;width:100%;margin-top:16px;font-size:1.25em;padding:16px}
+.btn-nxt{background:linear-gradient(135deg,#3b82f6,#2563eb);color:white;padding:12px 28px}
+.btn-rst{background:linear-gradient(135deg,#10b981,#059669);color:white;padding:12px 28px}
+.hidden{display:none!important}
+
+/* TOP BAR */
+.bar{display:flex;justify-content:space-between;align-items:center;width:100%;max-width:880px;margin-bottom:12px;gap:8px}
+.tag{background:rgba(255,255,255,.85);padding:8px 20px;border-radius:24px;font-weight:800;font-size:.95em;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+
+/* MAIN LAYOUT: wheel left + question right */
+.main{display:flex;align-items:flex-start;gap:20px;width:100%;max-width:880px;justify-content:center}
+
+/* WHEEL */
+.wbox{position:relative;flex-shrink:0;width:min(48vw,400px);height:min(48vw,400px)}
+.ptr{position:absolute;top:-4px;left:50%;transform:translateX(-50%);z-index:10;width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;border-top:24px solid #dc2626;filter:drop-shadow(0 2px 3px rgba(0,0,0,.2))}
+.ptr::after{content:&#x27;&#x27;;position:absolute;top:-24px;left:-6.5px;width:13px;height:13px;background:#dc2626;border-radius:50%}
+canvas{width:100%;height:100%;border-radius:50%;box-shadow:0 0 0 8px rgba(255,255,255,.6),0 0 0 12px rgba(234,88,12,.12),0 8px 30px rgba(0,0,0,.08);cursor:pointer;display:block}
+
+/* QUESTION PANEL */
+.qpanel{flex:1;min-width:260px;max-width:420px;display:flex;flex-direction:column;gap:12px}
+.qcard{background:rgba(255,255,255,.95);border-radius:20px;padding:22px 20px;box-shadow:0 6px 24px rgba(0,0,0,.06);animation:fadeIn .4s ease-out}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.qcard.ok{background:#f0fdf4;box-shadow:0 0 20px rgba(34,197,94,.15)}
+.qcard.no{background:#fef2f2;box-shadow:0 0 20px rgba(239,68,68,.12)}
+.qt{font-size:.78em;font-weight:700;color:#c2410c;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.qq{font-family:&#x27;Baloo 2&#x27;,cursive;font-size:clamp(1.2em,3vw,1.7em);margin-bottom:16px;line-height:1.3;color:#1e293b}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ob{padding:13px 14px;border-radius:12px;border:2px solid #e5e7eb;background:white;color:#1e293b;font-size:clamp(.88em,2vw,1.05em);font-weight:700;cursor:pointer;transition:.2s;text-align:left}
+.ob:hover{border-color:#f59e0b;background:#fffbeb;transform:scale(1.02)}
+.ob.c{border-color:#22c55e;background:#dcfce7;color:#166534}
+.ob.w{border-color:#ef4444;background:#fee2e2;color:#991b1b}
+.fb{font-family:&#x27;Baloo 2&#x27;,cursive;font-size:1.15em;margin-top:8px;min-height:24px;text-align:center}
+.fb.c{color:#16a34a}.fb.w{color:#dc2626}
+.ctrls{display:flex;justify-content:center;gap:10px;margin-top:6px}
+.msg-card{background:rgba(255,255,255,.95);border-radius:20px;padding:28px 22px;box-shadow:0 6px 24px rgba(0,0,0,.06);text-align:center;animation:fadeIn .4s ease-out}
+.msg-text{font-family:&#x27;Baloo 2&#x27;,cursive;font-size:1.4em;line-height:1.4;margin-bottom:12px}
+.wait-card{background:rgba(255,255,255,.6);border-radius:18px;padding:24px;text-align:center;font-weight:700;color:#92400e;font-size:1em;border:2px dashed #fdba74}
+
+/* QUAY BUTTON - centered below */
+.spin-row{width:100%;max-width:880px;display:flex;justify-content:center;margin-top:14px}
+.spin-btn{padding:14px 48px;border-radius:16px;background:linear-gradient(135deg,#dc2626,#b91c1c);border:none;color:white;font-family:&#x27;Baloo 2&#x27;,cursive;font-size:1.25em;font-weight:800;cursor:pointer;box-shadow:0 6px 24px rgba(185,28,28,.25);transition:.3s;display:flex;align-items:center;gap:8px}
+.spin-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(185,28,28,.35)}
+.spin-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+/* RESULT */
+.res{background:rgba(255,255,255,.95);border-radius:24px;padding:30px;box-shadow:0 8px 32px rgba(0,0,0,.08);text-align:center;width:100%;max-width:480px;margin-top:16px}
+.res .ri{font-size:3.5em;margin-bottom:6px}
+.res .rt{font-family:&#x27;Baloo 2&#x27;,cursive;font-size:1.8em;color:#c2410c}
+.res .rs{font-size:1.2em;font-weight:800;margin:12px 0;line-height:1.8}
+
+.confetti{position:fixed;top:-20px;z-index:10000;animation:cfall var(--fd) ease-out forwards}
+@keyframes cfall{to{top:110vh;transform:rotate(var(--rot))}}
+
+@media(max-width:680px){
+  .main{flex-direction:column;align-items:center}
+  .wbox{width:min(75vw,320px);height:min(75vw,320px)}
+  .qpanel{max-width:100%;min-width:0;width:100%}
+  .opts{grid-template-columns:1fr}
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;page&quot;&gt;
+  &lt;!-- SETUP --&gt;
+  &lt;div id=&quot;S0&quot;&gt;
+    &lt;h1&gt;🎡 Vòng Quay May Mắn&lt;/h1&gt;
+    &lt;p class=&quot;sub&quot;&gt;Quay vòng xoay – Trả lời câu hỏi – Lớp 2&lt;/p&gt;
+    &lt;div class=&quot;setup&quot;&gt;
+      &lt;label&gt;📚 Chủ đề câu hỏi:&lt;/label&gt;
+      &lt;select id=&quot;selTopic&quot;&gt;
+        &lt;option value=&quot;mix&quot;&gt;🎲 Hỗn hợp (Toán + TV + TNXH)&lt;/option&gt;
+        &lt;option value=&quot;math&quot;&gt;🔢 Toán Lớp 2&lt;/option&gt;
+        &lt;option value=&quot;viet&quot;&gt;📖 Tiếng Việt Lớp 2&lt;/option&gt;
+        &lt;option value=&quot;tnxh&quot;&gt;🌿 TNXH Lớp 2&lt;/option&gt;
+      &lt;/select&gt;
+      &lt;label&gt;📝 Số lượt quay:&lt;/label&gt;
+      &lt;select id=&quot;selTotal&quot;&gt;&lt;option value=&quot;8&quot; selected&gt;8 lượt&lt;/option&gt;&lt;option value=&quot;10&quot;&gt;10 lượt&lt;/option&gt;&lt;option value=&quot;15&quot;&gt;15 lượt&lt;/option&gt;&lt;/select&gt;
+      &lt;button class=&quot;btn btn-go&quot; id=&quot;btnStart&quot;&gt;🎡 BẮT ĐẦU QUAY&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- GAME --&gt;
+  &lt;div id=&quot;S1&quot; style=&quot;display:none;width:100%;flex-direction:column;align-items:center&quot;&gt;
+    &lt;div class=&quot;bar&quot;&gt;
+      &lt;div class=&quot;tag&quot; id=&quot;tTopic&quot;&gt;📚 Hỗn hợp&lt;/div&gt;
+      &lt;div class=&quot;tag&quot; style=&quot;color:#c2410c&quot; id=&quot;tRound&quot;&gt;Câu 1/8&lt;/div&gt;
+      &lt;div class=&quot;tag&quot; style=&quot;color:#ea580c&quot; id=&quot;tScore&quot;&gt;⭐ 0 điểm&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;main&quot;&gt;
+      &lt;div class=&quot;wbox&quot; id=&quot;wbox&quot;&gt;
+        &lt;div class=&quot;ptr&quot;&gt;&lt;/div&gt;
+        &lt;canvas id=&quot;cv&quot;&gt;&lt;/canvas&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;qpanel&quot; id=&quot;qPanel&quot;&gt;
+        &lt;div class=&quot;wait-card&quot;&gt;👆 Nhấn nút &lt;b&gt;QUAY!&lt;/b&gt; bên dưới để bắt đầu&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;spin-row&quot;&gt;
+      &lt;button class=&quot;spin-btn&quot; id=&quot;btnSpin&quot;&gt;🎡 QUAY!&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- RESULT --&gt;
+  &lt;div id=&quot;S2&quot; style=&quot;display:none;flex-direction:column;align-items:center&quot;&gt;
+    &lt;div class=&quot;res&quot;&gt;&lt;div class=&quot;ri&quot;&gt;🏆&lt;/div&gt;&lt;div class=&quot;rt&quot;&gt;KẾT QUẢ VÒNG QUAY&lt;/div&gt;&lt;div class=&quot;rs&quot; id=&quot;resScore&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;ctrls&quot;&gt;&lt;button class=&quot;btn btn-go&quot; id=&quot;btnAgain&quot;&gt;🔄 Chơi lại&lt;/button&gt;&lt;button class=&quot;btn btn-rst&quot; id=&quot;btnBack&quot;&gt;⚙️ Đổi chủ đề&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+var SEGS=[
+  {l:&quot;🎲&quot;,c:&quot;#22c55e&quot;},{l:&quot;🔢&quot;,c:&quot;#3b82f6&quot;},{l:&quot;📖&quot;,c:&quot;#8b5cf6&quot;},
+  {l:&quot;⭐&quot;,c:&quot;#f59e0b&quot;},{l:&quot;🧩&quot;,c:&quot;#ec4899&quot;},{l:&quot;🔔&quot;,c:&quot;#ef4444&quot;},
+  {l:&quot;🌿&quot;,c:&quot;#14b8a6&quot;},{l:&quot;🎁&quot;,c:&quot;#e11d48&quot;},{l:&quot;🔢&quot;,c:&quot;#6366f1&quot;},
+  {l:&quot;🍬&quot;,c:&quot;#d946ef&quot;}
+];
+var QB={
+math:[
+{q:&quot;48 + 35 = ?&quot;,o:[&quot;73&quot;,&quot;83&quot;,&quot;93&quot;,&quot;78&quot;],a:1},{q:&quot;81 - 37 = ?&quot;,o:[&quot;54&quot;,&quot;44&quot;,&quot;34&quot;,&quot;48&quot;],a:1},
+{q:&quot;3 x 8 = ?&quot;,o:[&quot;21&quot;,&quot;24&quot;,&quot;27&quot;,&quot;18&quot;],a:1},{q:&quot;4 x 7 = ?&quot;,o:[&quot;24&quot;,&quot;28&quot;,&quot;32&quot;,&quot;21&quot;],a:1},
+{q:&quot;5 x 9 = ?&quot;,o:[&quot;40&quot;,&quot;50&quot;,&quot;45&quot;,&quot;35&quot;],a:2},{q:&quot;30 : 5 = ?&quot;,o:[&quot;5&quot;,&quot;6&quot;,&quot;7&quot;,&quot;8&quot;],a:1},
+{q:&quot;24 : 4 = ?&quot;,o:[&quot;5&quot;,&quot;6&quot;,&quot;7&quot;,&quot;8&quot;],a:1},{q:&quot;2 x 8 = ?&quot;,o:[&quot;14&quot;,&quot;16&quot;,&quot;18&quot;,&quot;12&quot;],a:1},
+{q:&quot;56 + 27 = ?&quot;,o:[&quot;73&quot;,&quot;83&quot;,&quot;93&quot;,&quot;78&quot;],a:1},{q:&quot;70 - 34 = ?&quot;,o:[&quot;46&quot;,&quot;36&quot;,&quot;44&quot;,&quot;26&quot;],a:1},
+{q:&quot;HV cạnh 6cm. Chu vi = ?&quot;,o:[&quot;18cm&quot;,&quot;24cm&quot;,&quot;30cm&quot;,&quot;12cm&quot;],a:1},
+{q:&quot;5 dm = ? cm&quot;,o:[&quot;5&quot;,&quot;50&quot;,&quot;500&quot;,&quot;55&quot;],a:1},{q:&quot;3 x 6 = ?&quot;,o:[&quot;15&quot;,&quot;18&quot;,&quot;21&quot;,&quot;24&quot;],a:1},
+{q:&quot;4 x 5 + 3 = ?&quot;,o:[&quot;20&quot;,&quot;23&quot;,&quot;25&quot;,&quot;18&quot;],a:1},{q:&quot;100 - 45 = ?&quot;,o:[&quot;65&quot;,&quot;55&quot;,&quot;45&quot;,&quot;75&quot;],a:1},
+{q:&quot;25 : 5 = ?&quot;,o:[&quot;4&quot;,&quot;5&quot;,&quot;6&quot;,&quot;3&quot;],a:1},{q:&quot;3 x 7 = ?&quot;,o:[&quot;18&quot;,&quot;21&quot;,&quot;24&quot;,&quot;27&quot;],a:1},
+{q:&quot;67 + 18 = ?&quot;,o:[&quot;75&quot;,&quot;85&quot;,&quot;95&quot;,&quot;80&quot;],a:1},{q:&quot;4 x 4 = ?&quot;,o:[&quot;12&quot;,&quot;14&quot;,&quot;16&quot;,&quot;20&quot;],a:2},
+{q:&quot;HCN dài 7cm rộng 3cm. Chu vi?&quot;,o:[&quot;10cm&quot;,&quot;14cm&quot;,&quot;20cm&quot;,&quot;21cm&quot;],a:2}
+],
+viet:[
+{q:&quot;Trái nghĩa của &#x27;nhanh&#x27;?&quot;,o:[&quot;chậm&quot;,&quot;mạnh&quot;,&quot;yếu&quot;,&quot;xa&quot;],a:0},
+{q:&quot;Từ nào là từ láy?&quot;,o:[&quot;nhà cửa&quot;,&quot;xinh xắn&quot;,&quot;bàn ghế&quot;,&quot;sách vở&quot;],a:1},
+{q:&quot;Điền: ___ường học (tr/ch)?&quot;,o:[&quot;ch&quot;,&quot;tr&quot;,&quot;s&quot;,&quot;x&quot;],a:1},
+{q:&quot;Đồng nghĩa với &#x27;chăm chỉ&#x27;?&quot;,o:[&quot;lười biếng&quot;,&quot;siêng năng&quot;,&quot;buồn bã&quot;,&quot;vui vẻ&quot;],a:1},
+{q:&quot;Từ nào chỉ hoạt động?&quot;,o:[&quot;cái bàn&quot;,&quot;xinh đẹp&quot;,&quot;chạy nhảy&quot;,&quot;con mèo&quot;],a:2},
+{q:&quot;Dấu câu: &#x27;Bạn khỏe không___&#x27;&quot;,o:[&quot;.&quot;,&quot;?&quot;,&quot;!&quot;,&quot;,&quot;],a:1},
+{q:&quot;Trái nghĩa của &#x27;to&#x27;?&quot;,o:[&quot;lớn&quot;,&quot;nhỏ&quot;,&quot;cao&quot;,&quot;dài&quot;],a:1},
+{q:&quot;Từ nào viết đúng?&quot;,o:[&quot;sách vở&quot;,&quot;xách vở&quot;,&quot;sách sở&quot;,&quot;xách sở&quot;],a:0},
+{q:&quot;&#x27;Mẹ nấu cơm.&#x27; Ai nấu cơm?&quot;,o:[&quot;Em&quot;,&quot;Cơm&quot;,&quot;Mẹ&quot;,&quot;Bố&quot;],a:2},
+{q:&quot;Từ nào chỉ đặc điểm?&quot;,o:[&quot;chạy&quot;,&quot;đẹp đẽ&quot;,&quot;trường&quot;,&quot;ăn&quot;],a:1},
+{q:&quot;&#x27;Có công mài sắt...&#x27;&quot;,o:[&quot;có ngày nên kim&quot;,&quot;nên vàng&quot;,&quot;nên giàu&quot;,&quot;nên vua&quot;],a:0},
+{q:&quot;Điền: Con ___âu ăn cỏ.&quot;,o:[&quot;ch&quot;,&quot;tr&quot;,&quot;s&quot;,&quot;x&quot;],a:1},
+{q:&quot;Trái nghĩa của &#x27;vui&#x27;?&quot;,o:[&quot;buồn&quot;,&quot;khỏe&quot;,&quot;giàu&quot;,&quot;đẹp&quot;],a:0},
+{q:&quot;Đồng nghĩa &#x27;giúp đỡ&#x27;?&quot;,o:[&quot;phá hoại&quot;,&quot;hỗ trợ&quot;,&quot;ngăn cản&quot;,&quot;trêu chọc&quot;],a:1},
+{q:&quot;Từ nào là từ ghép?&quot;,o:[&quot;lung linh&quot;,&quot;sách vở&quot;,&quot;lấp lánh&quot;,&quot;long lanh&quot;],a:1}
+],
+tnxh:[
+{q:&quot;Cơ quan nào giúp ta thở?&quot;,o:[&quot;Tim&quot;,&quot;Phổi&quot;,&quot;Dạ dày&quot;,&quot;Não&quot;],a:1},
+{q:&quot;Động vật nào đẻ trứng?&quot;,o:[&quot;Chó&quot;,&quot;Mèo&quot;,&quot;Gà&quot;,&quot;Trâu&quot;],a:2},
+{q:&quot;Trái Đất quay quanh gì?&quot;,o:[&quot;Mặt Trăng&quot;,&quot;Sao Hỏa&quot;,&quot;Mặt Trời&quot;,&quot;Sao Kim&quot;],a:2},
+{q:&quot;Mùa nào nóng nhất?&quot;,o:[&quot;Xuân&quot;,&quot;Hạ&quot;,&quot;Thu&quot;,&quot;Đông&quot;],a:1},
+{q:&quot;Bộ phận nào bơm máu?&quot;,o:[&quot;Phổi&quot;,&quot;Gan&quot;,&quot;Tim&quot;,&quot;Thận&quot;],a:2},
+{q:&quot;Cây cần gì để sống?&quot;,o:[&quot;Ánh sáng, nước, đất&quot;,&quot;Chỉ nước&quot;,&quot;Chỉ đất&quot;,&quot;Không cần gì&quot;],a:0},
+{q:&quot;Con vật nào sống dưới nước?&quot;,o:[&quot;Gà&quot;,&quot;Cá&quot;,&quot;Chim&quot;,&quot;Thỏ&quot;],a:1},
+{q:&quot;Cầu vồng có mấy màu?&quot;,o:[&quot;5&quot;,&quot;6&quot;,&quot;7&quot;,&quot;8&quot;],a:2},
+{q:&quot;Rễ cây giúp cây làm gì?&quot;,o:[&quot;Bay&quot;,&quot;Hút nước&quot;,&quot;Ra hoa&quot;,&quot;Đẹp hơn&quot;],a:1},
+{q:&quot;Một năm có mấy mùa?&quot;,o:[&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,&quot;5&quot;],a:2}
+]
+};
+var LABELS=[&#x27;A&#x27;,&#x27;B&#x27;,&#x27;C&#x27;,&#x27;D&#x27;];
+var cv,angle=0,busy=false,C={},G={};
+
+function snd(t){try{var a=new(window.AudioContext||window.webkitAudioContext)(),o=a.createOscillator(),g=a.createGain();if(t===&#x27;ok&#x27;){o.frequency.value=659;g.gain.value=.18;o.connect(g);g.connect(a.destination);o.start();o.stop(a.currentTime+.1);setTimeout(function(){var o2=a.createOscillator(),g2=a.createGain();o2.frequency.value=784;g2.gain.value=.18;o2.connect(g2);g2.connect(a.destination);o2.start();o2.stop(a.currentTime+.12)},100)}else if(t===&#x27;no&#x27;){o.type=&#x27;sawtooth&#x27;;o.frequency.value=200;g.gain.value=.12;o.connect(g);g.connect(a.destination);o.start();o.stop(a.currentTime+.25)}else if(t===&#x27;tick&#x27;){o.frequency.value=900;g.gain.value=.05;o.connect(g);g.connect(a.destination);o.start();o.stop(a.currentTime+.02)}else{var fs=[523,587,659,784,1047];for(var i=0;i&lt;5;i++){(function(x){setTimeout(function(){var o3=a.createOscillator(),g3=a.createGain();o3.frequency.value=fs[x];g3.gain.value=.15;o3.connect(g3);g3.connect(a.destination);o3.start();o3.stop(a.currentTime+.15)},x*90)})(i)}}}catch(e){}}
+
+function shuffle(a){for(var i=a.length-1;i&gt;0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+
+function draw(){
+  if(!cv)return;
+  var c=cv.getContext(&#x27;2d&#x27;),W=cv.width,H=cv.height,r=W/2-12,mx=W/2,my=H/2,n=SEGS.length,arc=2*Math.PI/n;
+  c.clearRect(0,0,W,H);
+  // Outer glow ring
+  c.beginPath();c.arc(mx,my,r+6,0,2*Math.PI);c.fillStyle=&#x27;rgba(255,255,255,.45)&#x27;;c.fill();
+  for(var i=0;i&lt;n;i++){
+    var a=angle+i*arc;
+    c.beginPath();c.moveTo(mx,my);c.arc(mx,my,r,a,a+arc);c.closePath();
+    c.fillStyle=SEGS[i].c;c.fill();
+    c.strokeStyle=&#x27;rgba(255,255,255,.3)&#x27;;c.lineWidth=2;c.stroke();
+    // Emoji icon
+    c.save();c.translate(mx,my);c.rotate(a+arc/2);
+    c.font=&#x27;24px sans-serif&#x27;;c.textAlign=&#x27;center&#x27;;c.textBaseline=&#x27;middle&#x27;;
+    c.fillText(SEGS[i].l,r*.58,0);
+    c.restore();
+  }
+  // Center circle
+  c.beginPath();c.arc(mx,my,32,0,2*Math.PI);c.fillStyle=&#x27;#f59e0b&#x27;;c.fill();
+  c.strokeStyle=&#x27;#fff&#x27;;c.lineWidth=4;c.stroke();
+  c.fillStyle=&#x27;#fff&#x27;;c.font=&#x27;bold 14px Baloo 2,Nunito,sans-serif&#x27;;c.textAlign=&#x27;center&#x27;;c.textBaseline=&#x27;middle&#x27;;
+  c.fillText(&#x27;QUAY&#x27;,mx,my);
+}
+
+function initCv(){
+  cv=document.getElementById(&#x27;cv&#x27;);
+  var box=document.getElementById(&#x27;wbox&#x27;);
+  var sz=box.offsetWidth;
+  cv.width=sz;cv.height=sz;
+  draw();
+}
+
+function show(id){
+  [&#x27;S0&#x27;,&#x27;S1&#x27;,&#x27;S2&#x27;].forEach(function(s){
+    var el=document.getElementById(s);
+    if(s===id){el.style.display=&#x27;flex&#x27;}else{el.style.display=&#x27;none&#x27;}
+  });
+}
+
+function startGame(){
+  C.topic=document.getElementById(&#x27;selTopic&#x27;).value;
+  C.total=parseInt(document.getElementById(&#x27;selTotal&#x27;).value);
+  var pool=[];
+  if(C.topic===&#x27;mix&#x27;)pool=shuffle([].concat(QB.math,QB.viet,QB.tnxh));
+  else pool=shuffle([].concat(QB[C.topic]));
+  G={qs:pool,qi:0,sc:0,rd:0,ans:false,dbl:false};
+  var topicNames={mix:&#x27;📚 Hỗn hợp&#x27;,math:&#x27;🔢 Toán&#x27;,viet:&#x27;📖 Tiếng Việt&#x27;,tnxh:&#x27;🌿 TNXH&#x27;};
+  document.getElementById(&#x27;tTopic&#x27;).textContent=topicNames[C.topic]||&#x27;📚 Hỗn hợp&#x27;;
+  show(&#x27;S1&#x27;);
+  setTimeout(function(){initCv();updBar()},50);
+  document.getElementById(&#x27;qPanel&#x27;).innerHTML=&#x27;&lt;div class=&quot;wait-card&quot;&gt;👆 Nhấn nút &lt;b&gt;QUAY!&lt;/b&gt; bên dưới để bắt đầu&lt;/div&gt;&#x27;;
+  document.getElementById(&#x27;btnSpin&#x27;).disabled=false;
+}
+
+function updBar(){
+  document.getElementById(&#x27;tRound&#x27;).textContent=&#x27;Câu &#x27;+(G.rd+1)+&#x27;/&#x27;+C.total;
+  document.getElementById(&#x27;tScore&#x27;).textContent=&#x27;⭐ &#x27;+G.sc+&#x27; điểm&#x27;;
+}
+
+function spin(){
+  if(busy||G.rd&gt;=C.total)return;
+  busy=true;
+  document.getElementById(&#x27;btnSpin&#x27;).disabled=true;
+  document.getElementById(&#x27;qPanel&#x27;).innerHTML=&#x27;&lt;div class=&quot;wait-card&quot;&gt;🎡 Đang quay...&lt;/div&gt;&#x27;;
+  var rot=(3+Math.random()*4)*2*Math.PI+Math.random()*2*Math.PI;
+  var start=angle,t0=null,dur=3000+Math.random()*1500,lastSeg=-1;
+  function anim(ts){
+    if(!t0)t0=ts;
+    var p=Math.min((ts-t0)/dur,1),ease=1-Math.pow(1-p,3);
+    angle=start+rot*ease;draw();
+    var seg=Math.floor((angle%(2*Math.PI))/(2*Math.PI/SEGS.length));
+    if(seg!==lastSeg){snd(&#x27;tick&#x27;);lastSeg=seg}
+    if(p&lt;1)requestAnimationFrame(anim);
+    else{busy=false;document.getElementById(&#x27;btnSpin&#x27;).disabled=false;onStop()}
+  }
+  requestAnimationFrame(anim);
+}
+
+function onStop(){
+  var n=SEGS.length,arc=2*Math.PI/n;
+  var ptr=-Math.PI/2;
+  var norm=((ptr-angle)%(2*Math.PI)+4*Math.PI)%(2*Math.PI);
+  var si=Math.floor(norm/arc)%n;
+  var seg=SEGS[si];
+  G.rd++;updBar();
+  if(seg.l===&#x27;⭐&#x27;){G.dbl=true;showMsg(&#x27;⭐ Điểm nhân đôi cho câu tiếp theo!&#x27;,&#x27;#f59e0b&#x27;)}
+  else if(seg.l===&#x27;🎁&#x27;){G.sc+=15;updBar();showMsg(&#x27;🎁 Bonus +15 điểm!&#x27;,&#x27;#e11d48&#x27;)}
+  else{showQ()}
+}
+
+function showMsg(txt,col){
+  var h=&#x27;&lt;div class=&quot;msg-card&quot;&gt;&lt;div class=&quot;msg-text&quot; style=&quot;color:&#x27;+col+&#x27;&quot;&gt;&#x27;+txt+&#x27;&lt;/div&gt;&lt;div class=&quot;ctrls&quot;&gt;&#x27;;
+  h+=G.rd&lt;C.total?&#x27;&lt;button class=&quot;btn btn-nxt&quot; onclick=&quot;ready()&quot;&gt;Quay tiếp ➜&lt;/button&gt;&#x27;:&#x27;&lt;button class=&quot;btn btn-nxt&quot; onclick=&quot;results()&quot;&gt;Xem kết quả&lt;/button&gt;&#x27;;
+  h+=&#x27;&lt;/div&gt;&lt;/div&gt;&#x27;;
+  document.getElementById(&#x27;qPanel&#x27;).innerHTML=h;
+}
+
+function ready(){
+  document.getElementById(&#x27;qPanel&#x27;).innerHTML=&#x27;&lt;div class=&quot;wait-card&quot;&gt;👆 Nhấn &lt;b&gt;QUAY!&lt;/b&gt; để tiếp tục&lt;/div&gt;&#x27;;
+}
+
+function showQ(){
+  if(G.qi&gt;=G.qs.length)G.qi=0;
+  G.ans=false;
+  var q=G.qs[G.qi],d=G.dbl;
+  // Detect topic
+  var tp=q.q.match(/[x:+\-=]|cm|dm|kg|HV|HCN|cạnh|chu vi|giờ/i)?&#x27;Toán&#x27;:q.q.match(/thở|Trái Đất|động vật|mùa|cầu vồng|Tim|Phổi|cây|Rễ|nước|sống/i)?&#x27;TNXH&#x27;:&#x27;Tiếng Việt&#x27;;
+  var h=&#x27;&lt;div class=&quot;qcard&quot; id=&quot;qb&quot;&gt;&#x27;;
+  h+=&#x27;&lt;div class=&quot;qt&quot;&gt;&#x27;+(d?&#x27;⭐x2 &#x27;:&#x27;&#x27;)+tp+&#x27;&lt;/div&gt;&#x27;;
+  h+=&#x27;&lt;div class=&quot;qq&quot;&gt;&#x27;+esc(q.q)+&#x27;&lt;/div&gt;&#x27;;
+  h+=&#x27;&lt;div class=&quot;opts&quot; id=&quot;optBox&quot;&gt;&#x27;;
+  for(var i=0;i&lt;q.o.length;i++){
+    h+=&#x27;&lt;button class=&quot;ob&quot; data-i=&quot;&#x27;+i+&#x27;&quot;&gt;&#x27;+LABELS[i]+&#x27;. &#x27;+esc(q.o[i])+&#x27;&lt;/button&gt;&#x27;;
+  }
+  h+=&#x27;&lt;/div&gt;&lt;div class=&quot;fb&quot; id=&quot;fbk&quot;&gt;&lt;/div&gt;&lt;div class=&quot;ctrls&quot; id=&quot;qC&quot;&gt;&lt;/div&gt;&lt;/div&gt;&#x27;;
+  document.getElementById(&#x27;qPanel&#x27;).innerHTML=h;
+  var btns=document.querySelectorAll(&#x27;#optBox .ob&#x27;);
+  for(var j=0;j&lt;btns.length;j++){
+    (function(btn,idx){btn.addEventListener(&#x27;click&#x27;,function(){pick(idx)})})(btns[j],j);
+  }
+}
+
+function esc(s){return s.replace(/&amp;/g,&#x27;&amp;amp;&#x27;).replace(/&lt;/g,&#x27;&amp;lt;&#x27;).replace(/&gt;/g,&#x27;&amp;gt;&#x27;)}
+
+function pick(idx){
+  if(G.ans)return;G.ans=true;
+  var q=G.qs[G.qi],btns=document.querySelectorAll(&#x27;#optBox .ob&#x27;);
+  var fb=document.getElementById(&#x27;fbk&#x27;),qb=document.getElementById(&#x27;qb&#x27;);
+  btns[q.a].classList.add(&#x27;c&#x27;);
+  var pts=G.dbl?20:10;
+  if(idx===q.a){fb.className=&#x27;fb c&#x27;;fb.textContent=&#x27;🎉 Đúng! +&#x27;+pts+&#x27; điểm&#x27;;snd(&#x27;ok&#x27;);qb.classList.add(&#x27;ok&#x27;);G.sc+=pts}
+  else{btns[idx].classList.add(&#x27;w&#x27;);fb.className=&#x27;fb w&#x27;;fb.textContent=&#x27;❌ Sai rồi! Đáp án: &#x27;+LABELS[q.a]+&#x27;. &#x27;+q.o[q.a];snd(&#x27;no&#x27;);qb.classList.add(&#x27;no&#x27;)}
+  G.dbl=false;G.qi++;updBar();
+  var ctrl=document.getElementById(&#x27;qC&#x27;);
+  ctrl.innerHTML=G.rd&lt;C.total?&#x27;&lt;button class=&quot;btn btn-nxt&quot; onclick=&quot;ready()&quot;&gt;Quay tiếp ➜&lt;/button&gt;&#x27;:&#x27;&lt;button class=&quot;btn btn-nxt&quot; onclick=&quot;results()&quot;&gt;Xem kết quả&lt;/button&gt;&#x27;;
+}
+
+function results(){
+  show(&#x27;S2&#x27;);
+  var pct=Math.round(G.sc/(C.total*10)*100);
+  document.getElementById(&#x27;resScore&#x27;).innerHTML=&#x27;Điểm: &#x27;+G.sc+&#x27;&lt;br&gt;&#x27;+(pct&gt;=80?&#x27;⭐ Xuất sắc!&#x27;:pct&gt;=50?&#x27;👍 Giỏi lắm!&#x27;:&#x27;💪 Cố gắng thêm!&#x27;);
+  snd(&#x27;win&#x27;);
+  var cols=[&#x27;#f59e0b&#x27;,&#x27;#22c55e&#x27;,&#x27;#3b82f6&#x27;,&#x27;#8b5cf6&#x27;,&#x27;#ec4899&#x27;,&#x27;#06b6d4&#x27;];
+  for(var i=0;i&lt;35;i++){var p=document.createElement(&#x27;div&#x27;);p.className=&#x27;confetti&#x27;;p.style.left=Math.random()*100+&#x27;vw&#x27;;p.style.background=cols[Math.floor(Math.random()*cols.length)];p.style.setProperty(&#x27;--fd&#x27;,(2+Math.random()*3)+&#x27;s&#x27;);p.style.setProperty(&#x27;--rot&#x27;,(Math.random()*720-360)+&#x27;deg&#x27;);p.style.animationDelay=Math.random()*2+&#x27;s&#x27;;p.style.borderRadius=Math.random()&gt;.5?&#x27;50%&#x27;:&#x27;2px&#x27;;p.style.width=(6+Math.random()*8)+&#x27;px&#x27;;p.style.height=(8+Math.random()*14)+&#x27;px&#x27;;document.body.appendChild(p);setTimeout(function(el){el.remove()},5000,p)}
+}
+
+document.addEventListener(&#x27;DOMContentLoaded&#x27;,function(){
+  document.getElementById(&#x27;btnStart&#x27;).addEventListener(&#x27;click&#x27;,startGame);
+  document.getElementById(&#x27;btnSpin&#x27;).addEventListener(&#x27;click&#x27;,spin);
+  document.getElementById(&#x27;btnSpin&#x27;).addEventListener(&#x27;touchend&#x27;,function(e){e.preventDefault();spin()});
+  document.getElementById(&#x27;cv&#x27;).addEventListener(&#x27;click&#x27;,spin);
+  document.getElementById(&#x27;btnAgain&#x27;).addEventListener(&#x27;click&#x27;,startGame);
+  document.getElementById(&#x27;btnBack&#x27;).addEventListener(&#x27;click&#x27;,function(){show(&#x27;S0&#x27;)});
+});
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</textarea>
+
+<textarea id="game9" style="display:none">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;vi&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;Bắn Bóng Bay – Lớp 2&lt;/title&gt;
+&lt;style&gt;
+@import url(&#x27;https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&amp;family=Nunito:wght@400;600;700;800&amp;display=swap&#x27;);
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:&#x27;Nunito&#x27;,sans-serif;background:linear-gradient(180deg,#bae6fd 0%,#e0f2fe 40%,#f0fdf4 80%,#dcfce7 100%);min-height:100vh;color:#1e293b;overflow-x:hidden}
+.container{max-width:900px;margin:0 auto;padding:16px;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+h1{font-family:&#x27;Baloo 2&#x27;,cursive;font-size:clamp(1.8em,5vw,2.8em);text-align:center;color:#dc2626;margin-bottom:4px}
+.subtitle{text-align:center;font-size:1em;color:#64748b;margin-bottom:14px;font-weight:600}
+.setup-card{background:white;border-radius:24px;padding:28px;width:100%;max-width:500px;box-shadow:0 6px 24px rgba(0,0,0,.06);border:2px solid #fca5a5}
+.setup-card label{display:block;font-weight:700;font-size:1em;margin:12px 0 5px;color:#dc2626}
+.setup-card select{width:100%;padding:12px 16px;border-radius:12px;border:2px solid #e2e8f0;font-size:1em;font-family:&#x27;Nunito&#x27;,sans-serif;font-weight:600;background:#fafafa;outline:none;transition:.3s;color:#334155}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:14px 30px;border:none;border-radius:14px;font-family:&#x27;Baloo 2&#x27;,cursive;font-size:1.15em;cursor:pointer;transition:all .3s;box-shadow:0 4px 15px rgba(0,0,0,.1)}
+.btn:hover{transform:translateY(-2px)}.btn:active{transform:translateY(0)}
+.btn-start{background:linear-gradient(135deg,#ef4444,#dc2626);color:white;width:100%;margin-top:16px}
+.btn-restart{background:linear-gradient(135deg,#f59e0b,#d97706);color:white}
+.hidden{display:none!important}
+.game-area{width:100%;max-width:800px}
+.top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px}
+.info-box{background:rgba(255,255,255,.9);padding:8px 16px;border-radius:12px;font-weight:800;border:2px solid #fecaca;font-size:.9em;backdrop-filter:blur(4px)}
+.question-bar{background:rgba(255,255,255,.95);border:2px solid #fecaca;border-radius:16px;padding:16px 20px;text-align:center;margin-bottom:12px;backdrop-filter:blur(4px);box-shadow:0 4px 16px rgba(0,0,0,.06)}
+.q-text{font-family:&#x27;Baloo 2&#x27;,cursive;font-size:clamp(1.2em,3.5vw,1.8em);color:#1e293b;line-height:1.3}
+.q-hint{font-size:.8em;color:#dc2626;font-weight:700;margin-bottom:4px}
+.balloon-area{position:relative;width:100%;height:340px;overflow:hidden;border-radius:20px;background:linear-gradient(180deg,rgba(186,230,253,.3),rgba(220,252,231,.2))}
+.balloon{position:absolute;cursor:pointer;transition:transform .15s;user-select:none;text-align:center;animation:float var(--dur) linear infinite}
+.balloon:hover{transform:scale(1.12)!important}
+.balloon:active{transform:scale(.95)!important}
+.balloon-body{width:72px;height:88px;border-radius:50% 50% 50% 50%;display:flex;align-items:center;justify-content:center;font-size:1em;font-weight:800;color:white;text-shadow:0 1px 3px rgba(0,0,0,.2);position:relative;box-shadow:0 6px 20px rgba(0,0,0,.1)}
+.balloon-body::after{content:&#x27;&#x27;;position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:12px solid var(--bcolor)}
+.balloon-body::before{content:&#x27;&#x27;;position:absolute;top:14px;left:16px;width:12px;height:8px;background:rgba(255,255,255,.35);border-radius:50%;transform:rotate(-30deg)}
+.balloon-string{width:1px;height:30px;background:linear-gradient(180deg,var(--bcolor),#94a3b8);margin:0 auto}
+@keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-18px)}100%{transform:translateY(0)}}
+@keyframes popAnim{0%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.5}100%{transform:scale(0);opacity:0}}
+.balloon.popping{animation:popAnim .3s ease-out forwards!important;pointer-events:none}
+.balloon.wrong-pop{animation:shake .4s ease-out!important}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.feedback-float{position:fixed;font-family:&#x27;Baloo 2&#x27;,cursive;font-size:2em;pointer-events:none;animation:floatUp 1s ease-out forwards;z-index:100}
+@keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-80px) scale(1.3)}}
+.result-card{background:white;border-radius:24px;padding:30px;box-shadow:0 6px 24px rgba(0,0,0,.06);text-align:center;width:100%;max-width:500px;border:2px solid #fca5a5}
+.trophy{font-size:3.5em;margin-bottom:6px}
+.result-title{font-family:&#x27;Baloo 2&#x27;,cursive;font-size:1.8em;color:#dc2626}
+.result-score{font-size:1.2em;font-weight:800;margin:10px 0;line-height:1.8}
+.confetti-piece{position:fixed;top:-20px;z-index:10000;animation:confetti-fall var(--fall-duration) ease-out forwards}
+@keyframes confetti-fall{to{top:110vh;transform:rotate(var(--rotation))}}
+@media(max-width:600px){.balloon-area{height:280px}.balloon-body{width:60px;height:72px;font-size:.85em}}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;container&quot;&gt;
+  &lt;div id=&quot;setupScreen&quot;&gt;
+    &lt;h1&gt;🎯 Bắn Bóng Bay&lt;/h1&gt;
+    &lt;p class=&quot;subtitle&quot;&gt;Chọn bóng đúng – Toán &amp; Tiếng Việt Lớp 2&lt;/p&gt;
+    &lt;div class=&quot;setup-card&quot;&gt;
+      &lt;label&gt;📚 Chủ đề:&lt;/label&gt;
+      &lt;select id=&quot;topicSelect&quot;&gt;
+        &lt;option value=&quot;mix&quot;&gt;🎲 Hỗn hợp&lt;/option&gt;
+        &lt;option value=&quot;math&quot;&gt;🔢 Toán (tính nhẩm nhanh)&lt;/option&gt;
+        &lt;option value=&quot;viet&quot;&gt;📖 Tiếng Việt&lt;/option&gt;
+      &lt;/select&gt;
+      &lt;label&gt;📝 Số câu:&lt;/label&gt;
+      &lt;select id=&quot;totalQ&quot;&gt;&lt;option value=&quot;10&quot; selected&gt;10 câu&lt;/option&gt;&lt;option value=&quot;15&quot;&gt;15 câu&lt;/option&gt;&lt;option value=&quot;20&quot;&gt;20 câu&lt;/option&gt;&lt;/select&gt;
+      &lt;button class=&quot;btn btn-start&quot; onclick=&quot;startGame()&quot;&gt;🎈 BẮT ĐẦU&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div id=&quot;gameScreen&quot; class=&quot;game-area hidden&quot;&gt;
+    &lt;div class=&quot;top-bar&quot;&gt;
+      &lt;div class=&quot;info-box&quot; style=&quot;color:#dc2626&quot; id=&quot;roundInfo&quot;&gt;Câu 1/10&lt;/div&gt;
+      &lt;div class=&quot;info-box&quot; style=&quot;color:#16a34a&quot; id=&quot;scoreLabel&quot;&gt;⭐ 0&lt;/div&gt;
+      &lt;div class=&quot;info-box&quot; style=&quot;color:#d97706&quot; id=&quot;streakLabel&quot;&gt;🔥 0&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;question-bar&quot;&gt;
+      &lt;div class=&quot;q-hint&quot; id=&quot;qHint&quot;&gt;Bắn bóng có đáp án đúng!&lt;/div&gt;
+      &lt;div class=&quot;q-text&quot; id=&quot;qText&quot;&gt;3 × 5 = ?&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;balloon-area&quot; id=&quot;balloonArea&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div id=&quot;resultScreen&quot; class=&quot;hidden&quot;&gt;
+    &lt;div class=&quot;result-card&quot;&gt;&lt;div class=&quot;trophy&quot;&gt;🎯&lt;/div&gt;&lt;div class=&quot;result-title&quot;&gt;KẾT QUẢ BẮN BÓNG&lt;/div&gt;&lt;div class=&quot;result-score&quot; id=&quot;resultScore&quot;&gt;&lt;/div&gt;&lt;div class=&quot;controls&quot; style=&quot;display:flex;gap:12px;justify-content:center;flex-wrap:wrap&quot;&gt;&lt;button class=&quot;btn btn-start&quot; onclick=&quot;startGame()&quot;&gt;🔄 Chơi lại&lt;/button&gt;&lt;button class=&quot;btn btn-restart&quot; onclick=&quot;resetAll()&quot;&gt;⚙️ Đổi chủ đề&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+let _aC;function _iA(){if(!_aC)_aC=new(window.AudioContext||window.webkitAudioContext)()}
+function _pT(f,d,t,v){_iA();const o=_aC.createOscillator(),g=_aC.createGain();o.type=t||&#x27;sine&#x27;;o.frequency.value=f;g.gain.value=v||.15;g.gain.exponentialRampToValueAtTime(.001,_aC.currentTime+d);o.connect(g);g.connect(_aC.destination);o.start();o.stop(_aC.currentTime+d)}
+function sndPop(){_pT(600,.06,&#x27;sine&#x27;,.25);setTimeout(()=&gt;_pT(300,.1,&#x27;sine&#x27;,.15),60)}
+function sndNo(){_pT(200,.2,&#x27;sawtooth&#x27;,.12)}
+function sndWin(){[523,587,659,784,1047].forEach((f,i)=&gt;setTimeout(()=&gt;_pT(f,.15,&#x27;sine&#x27;,.18),i*90))}
+function shuffle(a){for(let i=a.length-1;i&gt;0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+const COLORS=[&#x27;#ef4444&#x27;,&#x27;#f59e0b&#x27;,&#x27;#22c55e&#x27;,&#x27;#3b82f6&#x27;,&#x27;#8b5cf6&#x27;,&#x27;#ec4899&#x27;,&#x27;#06b6d4&#x27;,&#x27;#f97316&#x27;];
+const QBank={
+math:[
+{q:&quot;36 + 28 = ?&quot;,o:[&quot;54&quot;,&quot;64&quot;,&quot;74&quot;,&quot;58&quot;],a:1},{q:&quot;4 × 7 = ?&quot;,o:[&quot;21&quot;,&quot;24&quot;,&quot;28&quot;,&quot;32&quot;],a:2},
+{q:&quot;81 − 35 = ?&quot;,o:[&quot;56&quot;,&quot;46&quot;,&quot;36&quot;,&quot;52&quot;],a:1},{q:&quot;5 × 6 = ?&quot;,o:[&quot;25&quot;,&quot;30&quot;,&quot;35&quot;,&quot;40&quot;],a:1},
+{q:&quot;3 × 9 = ?&quot;,o:[&quot;24&quot;,&quot;27&quot;,&quot;30&quot;,&quot;21&quot;],a:1},{q:&quot;45 + 38 = ?&quot;,o:[&quot;73&quot;,&quot;83&quot;,&quot;93&quot;,&quot;78&quot;],a:1},
+{q:&quot;24 ÷ 3 = ?&quot;,o:[&quot;6&quot;,&quot;7&quot;,&quot;8&quot;,&quot;9&quot;],a:2},{q:&quot;2 × 7 = ?&quot;,o:[&quot;12&quot;,&quot;14&quot;,&quot;16&quot;,&quot;18&quot;],a:1},
+{q:&quot;90 − 47 = ?&quot;,o:[&quot;53&quot;,&quot;43&quot;,&quot;47&quot;,&quot;33&quot;],a:1},{q:&quot;20 ÷ 5 = ?&quot;,o:[&quot;3&quot;,&quot;4&quot;,&quot;5&quot;,&quot;6&quot;],a:1},
+{q:&quot;67 + 25 = ?&quot;,o:[&quot;82&quot;,&quot;92&quot;,&quot;88&quot;,&quot;102&quot;],a:1},{q:&quot;4 × 9 = ?&quot;,o:[&quot;32&quot;,&quot;36&quot;,&quot;40&quot;,&quot;28&quot;],a:1},
+{q:&quot;5 × 5 = ?&quot;,o:[&quot;20&quot;,&quot;25&quot;,&quot;30&quot;,&quot;15&quot;],a:1},{q:&quot;100 − 63 = ?&quot;,o:[&quot;47&quot;,&quot;37&quot;,&quot;27&quot;,&quot;43&quot;],a:1},
+{q:&quot;3 × 4 = ?&quot;,o:[&quot;9&quot;,&quot;12&quot;,&quot;15&quot;,&quot;16&quot;],a:1},{q:&quot;56 − 29 = ?&quot;,o:[&quot;37&quot;,&quot;27&quot;,&quot;23&quot;,&quot;33&quot;],a:1},
+{q:&quot;16 ÷ 4 = ?&quot;,o:[&quot;3&quot;,&quot;4&quot;,&quot;5&quot;,&quot;6&quot;],a:1},{q:&quot;5 × 8 = ?&quot;,o:[&quot;35&quot;,&quot;40&quot;,&quot;45&quot;,&quot;30&quot;],a:1},
+{q:&quot;48 + 37 = ?&quot;,o:[&quot;75&quot;,&quot;85&quot;,&quot;95&quot;,&quot;82&quot;],a:1},{q:&quot;32 ÷ 4 = ?&quot;,o:[&quot;6&quot;,&quot;7&quot;,&quot;8&quot;,&quot;9&quot;],a:2}
+],
+viet:[
+{q:&quot;Từ trái nghĩa &#x27;cao&#x27;?&quot;,o:[&quot;to&quot;,&quot;thấp&quot;,&quot;dài&quot;,&quot;rộng&quot;],a:1},{q:&quot;Điền: ___ường học&quot;,o:[&quot;ch&quot;,&quot;tr&quot;,&quot;s&quot;,&quot;x&quot;],a:1},
+{q:&quot;Từ nào là từ láy?&quot;,o:[&quot;nhà cửa&quot;,&quot;xinh xắn&quot;,&quot;bàn ghế&quot;,&quot;cha mẹ&quot;],a:1},{q:&quot;Dấu câu: &#x27;Đẹp quá___&#x27;&quot;,o:[&quot;.&quot;,&quot;!&quot;,&quot;?&quot;,&quot;,&quot;],a:1},
+{q:&quot;Từ đồng nghĩa &#x27;buồn&#x27;?&quot;,o:[&quot;vui&quot;,&quot;u sầu&quot;,&quot;khỏe&quot;,&quot;đẹp&quot;],a:1},{q:&quot;Từ nào chỉ sự vật?&quot;,o:[&quot;chạy&quot;,&quot;đẹp&quot;,&quot;ngôi nhà&quot;,&quot;nhanh&quot;],a:2},
+{q:&quot;Con ___âu (tr/ch)?&quot;,o:[&quot;ch&quot;,&quot;tr&quot;,&quot;s&quot;,&quot;d&quot;],a:1},{q:&quot;&#x27;Mẹ hiền như ___&#x27;&quot;,o:[&quot;tiên&quot;,&quot;hoa&quot;,&quot;sao&quot;,&quot;mây&quot;],a:0},
+{q:&quot;Từ trái nghĩa &#x27;nóng&#x27;?&quot;,o:[&quot;lạnh&quot;,&quot;ấm&quot;,&quot;mát&quot;,&quot;nóng&quot;],a:0},{q:&quot;Từ chỉ hoạt động?&quot;,o:[&quot;cái bút&quot;,&quot;viết bài&quot;,&quot;xinh đẹp&quot;,&quot;ngôi sao&quot;],a:1},
+{q:&quot;Từ nào viết đúng?&quot;,o:[&quot;giày dép&quot;,&quot;dày dép&quot;,&quot;giày zép&quot;,&quot;dày zép&quot;],a:0},{q:&quot;Từ trái nghĩa &#x27;khỏe&#x27;?&quot;,o:[&quot;mạnh&quot;,&quot;yếu&quot;,&quot;giỏi&quot;,&quot;nhanh&quot;],a:1},
+{q:&quot;Điền: ___anh xanh&quot;,o:[&quot;c&quot;,&quot;k&quot;,&quot;x&quot;,&quot;s&quot;],a:0},{q:&quot;Từ đồng nghĩa &#x27;xinh&#x27;?&quot;,o:[&quot;xấu&quot;,&quot;đẹp&quot;,&quot;to&quot;,&quot;bé&quot;],a:1},
+{q:&quot;Từ nào là từ ghép?&quot;,o:[&quot;lung linh&quot;,&quot;sách vở&quot;,&quot;lấp lánh&quot;,&quot;long lanh&quot;],a:1}
+]
+};
+let cfg={},st={};
+function startGame(){
+  cfg.topic=document.getElementById(&#x27;topicSelect&#x27;).value;
+  cfg.total=parseInt(document.getElementById(&#x27;totalQ&#x27;).value);
+  let pool=[];
+  if(cfg.topic===&#x27;mix&#x27;)pool=shuffle([...QBank.math,...QBank.viet]);
+  else pool=shuffle([...QBank[cfg.topic]]);
+  st={questions:pool.slice(0,cfg.total),qIdx:0,score:0,streak:0,answered:false};
+  document.getElementById(&#x27;setupScreen&#x27;).classList.add(&#x27;hidden&#x27;);
+  document.getElementById(&#x27;resultScreen&#x27;).classList.add(&#x27;hidden&#x27;);
+  document.getElementById(&#x27;gameScreen&#x27;).classList.remove(&#x27;hidden&#x27;);
+  showQ();
+}
+function showQ(){
+  if(st.qIdx&gt;=st.questions.length){showResults();return}
+  st.answered=false;
+  let q=st.questions[st.qIdx];
+  document.getElementById(&#x27;roundInfo&#x27;).textContent=&#x27;Câu &#x27;+(st.qIdx+1)+&#x27;/&#x27;+st.questions.length;
+  document.getElementById(&#x27;scoreLabel&#x27;).textContent=&#x27;⭐ &#x27;+st.score;
+  document.getElementById(&#x27;streakLabel&#x27;).textContent=&#x27;🔥 &#x27;+st.streak;
+  document.getElementById(&#x27;qText&#x27;).textContent=q.q;
+  let area=document.getElementById(&#x27;balloonArea&#x27;);area.innerHTML=&#x27;&#x27;;
+  let positions=shuffle([0,1,2,3]);
+  let areaW=area.offsetWidth||600,areaH=area.offsetHeight||300;
+  q.o.forEach((opt,i)=&gt;{
+    let col=positions[i];
+    let x=areaW*0.1+col*(areaW*0.8/3)-36;
+    let y=40+Math.random()*(areaH-160);
+    let color=COLORS[Math.floor(Math.random()*COLORS.length)];
+    let dur=(2.5+Math.random()*2)+&#x27;s&#x27;;
+    let b=document.createElement(&#x27;div&#x27;);b.className=&#x27;balloon&#x27;;
+    b.style.left=x+&#x27;px&#x27;;b.style.top=y+&#x27;px&#x27;;b.style.setProperty(&#x27;--dur&#x27;,dur);b.style.setProperty(&#x27;--bcolor&#x27;,color);b.style.animationDelay=(Math.random()*2)+&#x27;s&#x27;;
+    b.innerHTML=&#x27;&lt;div class=&quot;balloon-body&quot; style=&quot;background:&#x27;+color+&#x27;&quot;&gt;&#x27;+opt+&#x27;&lt;/div&gt;&lt;div class=&quot;balloon-string&quot;&gt;&lt;/div&gt;&#x27;;
+    b.onclick=()=&gt;popBalloon(b,i);
+    area.appendChild(b);
+  });
+}
+function popBalloon(el,idx){
+  if(st.answered)return;st.answered=true;
+  let q=st.questions[st.qIdx];
+  let rect=el.getBoundingClientRect();
+  if(idx===q.a){
+    el.classList.add(&#x27;popping&#x27;);sndPop();
+    st.streak++;let bonus=st.streak&gt;=3?5:0;st.score+=10+bonus;
+    showFloating(rect.left+36,rect.top,&#x27;🎉 +&#x27;+(10+bonus),true);
+  }else{
+    el.classList.add(&#x27;wrong-pop&#x27;);sndNo();st.streak=0;
+    showFloating(rect.left+36,rect.top,&#x27;❌&#x27;,false);
+    let balloons=document.querySelectorAll(&#x27;.balloon&#x27;);
+    balloons[q.a]&amp;&amp;balloons[q.a].querySelector(&#x27;.balloon-body&#x27;).style.setProperty(&#x27;box-shadow&#x27;,&#x27;0 0 20px 5px #22c55e&#x27;);
+  }
+  document.getElementById(&#x27;scoreLabel&#x27;).textContent=&#x27;⭐ &#x27;+st.score;
+  document.getElementById(&#x27;streakLabel&#x27;).textContent=&#x27;🔥 &#x27;+st.streak;
+  st.qIdx++;
+  setTimeout(()=&gt;showQ(),1200);
+}
+function showFloating(x,y,text,ok){
+  let f=document.createElement(&#x27;div&#x27;);f.className=&#x27;feedback-float&#x27;;f.textContent=text;
+  f.style.left=x+&#x27;px&#x27;;f.style.top=y+&#x27;px&#x27;;f.style.color=ok?&#x27;#16a34a&#x27;:&#x27;#dc2626&#x27;;
+  document.body.appendChild(f);setTimeout(()=&gt;f.remove(),1000);
+}
+function showResults(){
+  document.getElementById(&#x27;gameScreen&#x27;).classList.add(&#x27;hidden&#x27;);document.getElementById(&#x27;resultScreen&#x27;).classList.remove(&#x27;hidden&#x27;);
+  let pct=Math.round(st.score/(st.questions.length*10)*100);
+  document.getElementById(&#x27;resultScore&#x27;).innerHTML=&#x27;Điểm: &#x27;+st.score+&#x27;/&#x27;+(st.questions.length*10)+&#x27;&lt;br&gt;Combo dài nhất: 🔥 &#x27;+st.streak+&#x27;&lt;br&gt;&#x27;+(pct&gt;=80?&#x27;⭐ Xạ thủ xuất sắc!&#x27;:pct&gt;=50?&#x27;👍 Bắn giỏi lắm!&#x27;:&#x27;💪 Tập bắn thêm!&#x27;);
+  sndWin();let colors=[&#x27;#ef4444&#x27;,&#x27;#22c55e&#x27;,&#x27;#3b82f6&#x27;,&#x27;#f59e0b&#x27;,&#x27;#8b5cf6&#x27;,&#x27;#ec4899&#x27;];
+  for(let i=0;i&lt;40;i++){let p=document.createElement(&#x27;div&#x27;);p.className=&#x27;confetti-piece&#x27;;p.style.left=Math.random()*100+&#x27;vw&#x27;;p.style.background=colors[Math.floor(Math.random()*colors.length)];p.style.setProperty(&#x27;--fall-duration&#x27;,(2+Math.random()*3)+&#x27;s&#x27;);p.style.setProperty(&#x27;--rotation&#x27;,(Math.random()*720-360)+&#x27;deg&#x27;);p.style.animationDelay=Math.random()*2+&#x27;s&#x27;;p.style.borderRadius=Math.random()&gt;.5?&#x27;50%&#x27;:&#x27;2px&#x27;;p.style.width=(6+Math.random()*8)+&#x27;px&#x27;;p.style.height=(8+Math.random()*14)+&#x27;px&#x27;;document.body.appendChild(p);setTimeout(()=&gt;p.remove(),5000)}
+}
+function resetAll(){document.getElementById(&#x27;setupScreen&#x27;).classList.remove(&#x27;hidden&#x27;);document.getElementById(&#x27;gameScreen&#x27;).classList.add(&#x27;hidden&#x27;);document.getElementById(&#x27;resultScreen&#x27;).classList.add(&#x27;hidden&#x27;)}
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</textarea>
+
+<textarea id="game10" style="display:none">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;vi&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;Kéo Thả Sắp Xếp – Lớp 2&lt;/title&gt;
+&lt;style&gt;
+@import url(&#x27;https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&amp;family=Nunito:wght@400;600;700;800&amp;display=swap&#x27;);
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:&#x27;Nunito&#x27;,sans-serif;background:linear-gradient(135deg,#ede9fe,#dbeafe,#e0f2fe,#f0fdf4);min-height:100vh;color:#1e293b}
+.container{max-width:900px;margin:0 auto;padding:16px;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+h1{font-family:&#x27;Baloo 2&#x27;,cursive;font-size:clamp(1.8em,5vw,2.8em);text-align:center;color:#7c3aed;margin-bottom:4px}
+.subtitle{text-align:center;font-size:1em;color:#64748b;margin-bottom:14px;font-weight:600}
+.setup-card{background:white;border-radius:24px;padding:28px;width:100%;max-width:500px;box-shadow:0 6px 24px rgba(0,0,0,.06);border:2px solid #c4b5fd}
+.setup-card label{display:block;font-weight:700;font-size:1em;margin:12px 0 5px;color:#7c3aed}
+.setup-card select{width:100%;padding:12px 16px;border-radius:12px;border:2px solid #e2e8f0;font-size:1em;font-family:&#x27;Nunito&#x27;,sans-serif;font-weight:600;background:#fafafa;outline:none;transition:.3s;color:#334155}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:14px 30px;border:none;border-radius:14px;font-family:&#x27;Baloo 2&#x27;,cursive;font-size:1.15em;cursor:pointer;transition:all .3s;box-shadow:0 4px 15px rgba(0,0,0,.1)}
+.btn:hover{transform:translateY(-2px)}.btn:active{transform:translateY(0)}
+.btn-start{background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:white;width:100%;margin-top:16px}
+.btn-check{background:linear-gradient(135deg,#22c55e,#16a34a);color:white;padding:14px 36px;font-size:1.2em}
+.btn-next{background:linear-gradient(135deg,#3b82f6,#2563eb);color:white}
+.btn-restart{background:linear-gradient(135deg,#f59e0b,#d97706);color:white}
+.hidden{display:none!important}
+.game-area{width:100%;max-width:700px}
+.top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.info-box{background:white;padding:8px 16px;border-radius:12px;font-weight:800;border:2px solid #ddd6fe;font-size:.9em}
+.task-card{background:white;border:2px solid #ddd6fe;border-radius:20px;padding:20px;text-align:center;margin-bottom:14px;box-shadow:0 4px 16px rgba(0,0,0,.04)}
+.task-label{color:#7c3aed;font-size:.85em;font-weight:700;margin-bottom:4px}
+.task-text{font-family:&#x27;Baloo 2&#x27;,cursive;font-size:clamp(1.1em,3vw,1.5em);line-height:1.3}
+.sort-container{display:flex;flex-direction:column;gap:8px;max-width:500px;margin:0 auto 14px}
+.sort-item{padding:14px 20px;border-radius:14px;border:3px solid #e2e8f0;background:white;font-size:clamp(1em,2.5vw,1.2em);font-weight:700;cursor:grab;transition:all .2s;user-select:none;display:flex;align-items:center;gap:10px;touch-action:none}
+.sort-item:active{cursor:grabbing}
+.sort-item:hover{border-color:#8b5cf6;background:#f5f3ff;transform:scale(1.02)}
+.sort-item.dragging{opacity:.5;border-color:#8b5cf6;background:#ede9fe;transform:scale(1.05);box-shadow:0 8px 24px rgba(124,58,237,.15)}
+.sort-item.over{border-color:#8b5cf6;border-style:dashed}
+.sort-item.correct{border-color:#22c55e;background:#dcfce7;animation:correctPop .4s}
+.sort-item.wrong{border-color:#ef4444;background:#fee2e2;animation:shake .4s}
+.sort-handle{color:#94a3b8;font-size:1.2em;flex-shrink:0}
+.sort-num{width:28px;height:28px;border-radius:50%;background:#ede9fe;color:#7c3aed;font-size:.8em;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+@keyframes correctPop{50%{transform:scale(1.05)}}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.feedback{font-family:&#x27;Baloo 2&#x27;,cursive;font-size:1.4em;margin:10px 0;min-height:30px;text-align:center}
+.feedback.correct{color:#16a34a}.feedback.wrong{color:#dc2626}
+.controls{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.result-card{background:white;border-radius:24px;padding:30px;box-shadow:0 6px 24px rgba(0,0,0,.06);text-align:center;width:100%;max-width:500px;border:2px solid #c4b5fd}
+.trophy{font-size:3.5em;margin-bottom:6px}
+.result-title{font-family:&#x27;Baloo 2&#x27;,cursive;font-size:1.8em;color:#7c3aed}
+.result-score{font-size:1.2em;font-weight:800;margin:10px 0;line-height:1.8}
+.confetti-piece{position:fixed;top:-20px;z-index:10000;animation:confetti-fall var(--fall-duration) ease-out forwards}
+@keyframes confetti-fall{to{top:110vh;transform:rotate(var(--rotation))}}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;container&quot;&gt;
+  &lt;div id=&quot;setupScreen&quot;&gt;
+    &lt;h1&gt;📊 Kéo Thả Sắp Xếp&lt;/h1&gt;
+    &lt;p class=&quot;subtitle&quot;&gt;Sắp xếp đúng thứ tự – Toán &amp; Tiếng Việt Lớp 2&lt;/p&gt;
+    &lt;div class=&quot;setup-card&quot;&gt;
+      &lt;label&gt;📚 Dạng bài:&lt;/label&gt;
+      &lt;select id=&quot;topicSelect&quot;&gt;
+        &lt;option value=&quot;mix&quot;&gt;🎲 Hỗn hợp&lt;/option&gt;
+        &lt;option value=&quot;numAsc&quot;&gt;🔢 Số từ bé đến lớn&lt;/option&gt;
+        &lt;option value=&quot;numDesc&quot;&gt;🔢 Số từ lớn đến bé&lt;/option&gt;
+        &lt;option value=&quot;calc&quot;&gt;🧮 Kết quả phép tính tăng dần&lt;/option&gt;
+        &lt;option value=&quot;sentence&quot;&gt;📝 Sắp xếp câu đúng&lt;/option&gt;
+        &lt;option value=&quot;alpha&quot;&gt;🔤 Thứ tự bảng chữ cái&lt;/option&gt;
+      &lt;/select&gt;
+      &lt;button class=&quot;btn btn-start&quot; onclick=&quot;startGame()&quot;&gt;📊 BẮT ĐẦU&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div id=&quot;gameScreen&quot; class=&quot;game-area hidden&quot;&gt;
+    &lt;div class=&quot;top-bar&quot;&gt;
+      &lt;div class=&quot;info-box&quot; style=&quot;color:#7c3aed&quot; id=&quot;roundInfo&quot;&gt;Câu 1/8&lt;/div&gt;
+      &lt;div class=&quot;info-box&quot; style=&quot;color:#16a34a&quot; id=&quot;scoreLabel&quot;&gt;⭐ 0&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;task-card&quot;&gt;
+      &lt;div class=&quot;task-label&quot; id=&quot;taskLabel&quot;&gt;📊 Sắp xếp&lt;/div&gt;
+      &lt;div class=&quot;task-text&quot; id=&quot;taskText&quot;&gt;Kéo thả để sắp xếp từ bé đến lớn&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;sort-container&quot; id=&quot;sortContainer&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;feedback&quot; id=&quot;feedback&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;controls&quot;&gt;
+      &lt;button class=&quot;btn btn-check&quot; id=&quot;btnCheck&quot; onclick=&quot;checkOrder()&quot;&gt;✓ Kiểm tra&lt;/button&gt;
+      &lt;button class=&quot;btn btn-next&quot; id=&quot;btnNext&quot; onclick=&quot;nextQ()&quot; style=&quot;display:none&quot;&gt;Câu tiếp ➜&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div id=&quot;resultScreen&quot; class=&quot;hidden&quot;&gt;
+    &lt;div class=&quot;result-card&quot;&gt;&lt;div class=&quot;trophy&quot;&gt;📊&lt;/div&gt;&lt;div class=&quot;result-title&quot;&gt;KẾT QUẢ&lt;/div&gt;&lt;div class=&quot;result-score&quot; id=&quot;resultScore&quot;&gt;&lt;/div&gt;&lt;div class=&quot;controls&quot;&gt;&lt;button class=&quot;btn btn-start&quot; onclick=&quot;startGame()&quot;&gt;🔄 Chơi lại&lt;/button&gt;&lt;button class=&quot;btn btn-restart&quot; onclick=&quot;resetAll()&quot;&gt;⚙️ Đổi dạng&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+let _aC;function _iA(){if(!_aC)_aC=new(window.AudioContext||window.webkitAudioContext)()}
+function _pT(f,d,t,v){_iA();const o=_aC.createOscillator(),g=_aC.createGain();o.type=t||&#x27;sine&#x27;;o.frequency.value=f;g.gain.value=v||.15;g.gain.exponentialRampToValueAtTime(.001,_aC.currentTime+d);o.connect(g);g.connect(_aC.destination);o.start();o.stop(_aC.currentTime+d)}
+function sndOk(){_pT(523,.08,&#x27;sine&#x27;,.2);setTimeout(()=&gt;_pT(659,.08,&#x27;sine&#x27;,.2),80);setTimeout(()=&gt;_pT(784,.15,&#x27;sine&#x27;,.2),160)}
+function sndNo(){_pT(200,.25,&#x27;sawtooth&#x27;,.12)}
+function sndWin(){[523,587,659,784,1047].forEach((f,i)=&gt;setTimeout(()=&gt;_pT(f,.18,&#x27;sine&#x27;,.2),i*100))}
+function shuffle(a){for(let i=a.length-1;i&gt;0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function R(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+function genPuzzle(type){
+  if(type===&#x27;numAsc&#x27;){
+    let nums=[];while(nums.length&lt;5){let n=R(10,99);if(!nums.includes(n))nums.push(n)}
+    let sorted=[...nums].sort((a,b)=&gt;a-b);
+    return{task:&#x27;Sắp xếp từ BÉ đến LỚN&#x27;,label:&#x27;🔢 Số bé → lớn&#x27;,items:nums.map(String),answer:sorted.map(String)}
+  }
+  if(type===&#x27;numDesc&#x27;){
+    let nums=[];while(nums.length&lt;5){let n=R(10,99);if(!nums.includes(n))nums.push(n)}
+    let sorted=[...nums].sort((a,b)=&gt;b-a);
+    return{task:&#x27;Sắp xếp từ LỚN đến BÉ&#x27;,label:&#x27;🔢 Số lớn → bé&#x27;,items:nums.map(String),answer:sorted.map(String)}
+  }
+  if(type===&#x27;calc&#x27;){
+    let exprs=[];let vals=[];
+    while(exprs.length&lt;4){
+      let a=R(2,5),b=R(1,9);let v=a*b;let e=a+&#x27; × &#x27;+b;
+      if(!vals.includes(v)){exprs.push({e,v});vals.push(v)}
+    }
+    exprs.sort((a,b)=&gt;a.v-b.v);
+    let answer=exprs.map(x=&gt;x.e);let items=shuffle(exprs.map(x=&gt;x.e));
+    return{task:&#x27;Sắp xếp phép tính có KẾT QUẢ TĂNG DẦN&#x27;,label:&#x27;🧮 Phép tính tăng dần&#x27;,items,answer}
+  }
+  if(type===&#x27;alpha&#x27;){
+    let words=[[&#x27;bạn&#x27;,&#x27;cây&#x27;,&#x27;dòng&#x27;,&#x27;em&#x27;,&#x27;gió&#x27;],[&#x27;ăn&#x27;,&#x27;bài&#x27;,&#x27;cô&#x27;,&#x27;đi&#x27;,&#x27;gà&#x27;],[&#x27;hoa&#x27;,&#x27;kéo&#x27;,&#x27;lá&#x27;,&#x27;mẹ&#x27;,&#x27;nước&#x27;],[&#x27;ong&#x27;,&#x27;phố&#x27;,&#x27;quê&#x27;,&#x27;rừng&#x27;,&#x27;sông&#x27;],[&#x27;tre&#x27;,&#x27;ươi&#x27;,&#x27;vui&#x27;,&#x27;xa&#x27;,&#x27;yên&#x27;]];
+    let set=words[R(0,words.length-1)];
+    let answer=[...set];
+    return{task:&#x27;Sắp xếp theo THỨ TỰ BẢNG CHỮ CÁI&#x27;,label:&#x27;🔤 Bảng chữ cái&#x27;,items:shuffle([...set]),answer}
+  }
+  if(type===&#x27;sentence&#x27;){
+    let sents=[
+      {words:[&#x27;Em&#x27;,&#x27;đi&#x27;,&#x27;học&#x27;,&#x27;mỗi&#x27;,&#x27;ngày.&#x27;],full:&#x27;Em đi học mỗi ngày.&#x27;},
+      {words:[&#x27;Mẹ&#x27;,&#x27;nấu&#x27;,&#x27;cơm&#x27;,&#x27;rất&#x27;,&#x27;ngon.&#x27;],full:&#x27;Mẹ nấu cơm rất ngon.&#x27;},
+      {words:[&#x27;Bạn&#x27;,&#x27;An&#x27;,&#x27;thích&#x27;,&#x27;đọc&#x27;,&#x27;sách.&#x27;],full:&#x27;Bạn An thích đọc sách.&#x27;},
+      {words:[&#x27;Con&#x27;,&#x27;mèo&#x27;,&#x27;đang&#x27;,&#x27;ngủ&#x27;,&#x27;say.&#x27;],full:&#x27;Con mèo đang ngủ say.&#x27;},
+      {words:[&#x27;Trời&#x27;,&#x27;hôm&#x27;,&#x27;nay&#x27;,&#x27;rất&#x27;,&#x27;đẹp.&#x27;],full:&#x27;Trời hôm nay rất đẹp.&#x27;},
+      {words:[&#x27;Bố&#x27;,&#x27;đưa&#x27;,&#x27;em&#x27;,&#x27;đến&#x27;,&#x27;trường.&#x27;],full:&#x27;Bố đưa em đến trường.&#x27;},
+      {words:[&#x27;Cô&#x27;,&#x27;giáo&#x27;,&#x27;dạy&#x27;,&#x27;bài&#x27;,&#x27;mới.&#x27;],full:&#x27;Cô giáo dạy bài mới.&#x27;},
+      {words:[&#x27;Các&#x27;,&#x27;bạn&#x27;,&#x27;chơi&#x27;,&#x27;rất&#x27;,&#x27;vui.&#x27;],full:&#x27;Các bạn chơi rất vui.&#x27;},
+      {words:[&#x27;Chim&#x27;,&#x27;hót&#x27;,&#x27;trên&#x27;,&#x27;cành&#x27;,&#x27;cây.&#x27;],full:&#x27;Chim hót trên cành cây.&#x27;},
+      {words:[&#x27;Hoa&#x27;,&#x27;nở&#x27;,&#x27;rực&#x27;,&#x27;rỡ&#x27;,&#x27;lắm.&#x27;],full:&#x27;Hoa nở rực rỡ lắm.&#x27;},
+      {words:[&#x27;Ông&#x27;,&#x27;kể&#x27;,&#x27;chuyện&#x27;,&#x27;cho&#x27;,&#x27;em.&#x27;],full:&#x27;Ông kể chuyện cho em.&#x27;},
+      {words:[&#x27;Em&#x27;,&#x27;yêu&#x27;,&#x27;gia&#x27;,&#x27;đình&#x27;,&#x27;em.&#x27;],full:&#x27;Em yêu gia đình em.&#x27;}
+    ];
+    let s=sents[R(0,sents.length-1)];
+    return{task:&#x27;Sắp xếp thành CÂU ĐÚNG&#x27;,label:&#x27;📝 Ghép câu&#x27;,items:shuffle([...s.words]),answer:s.words}
+  }
+  let types=[&#x27;numAsc&#x27;,&#x27;numDesc&#x27;,&#x27;calc&#x27;,&#x27;sentence&#x27;,&#x27;alpha&#x27;];
+  return genPuzzle(types[R(0,types.length-1)]);
+}
+let cfg={},st={},dragSrcEl=null;
+function startGame(){
+  cfg.topic=document.getElementById(&#x27;topicSelect&#x27;).value;cfg.total=8;
+  st={qIdx:0,score:0,checked:false};
+  document.getElementById(&#x27;setupScreen&#x27;).classList.add(&#x27;hidden&#x27;);
+  document.getElementById(&#x27;resultScreen&#x27;).classList.add(&#x27;hidden&#x27;);
+  document.getElementById(&#x27;gameScreen&#x27;).classList.remove(&#x27;hidden&#x27;);
+  showQ();
+}
+function showQ(){
+  if(st.qIdx&gt;=cfg.total){showResults();return}
+  st.checked=false;
+  let puzzle=genPuzzle(cfg.topic);st.currentAnswer=puzzle.answer;
+  document.getElementById(&#x27;roundInfo&#x27;).textContent=&#x27;Câu &#x27;+(st.qIdx+1)+&#x27;/&#x27;+cfg.total;
+  document.getElementById(&#x27;scoreLabel&#x27;).textContent=&#x27;⭐ &#x27;+st.score;
+  document.getElementById(&#x27;taskLabel&#x27;).textContent=puzzle.label;
+  document.getElementById(&#x27;taskText&#x27;).textContent=puzzle.task;
+  document.getElementById(&#x27;feedback&#x27;).textContent=&#x27;&#x27;;document.getElementById(&#x27;feedback&#x27;).className=&#x27;feedback&#x27;;
+  document.getElementById(&#x27;btnCheck&#x27;).style.display=&#x27;&#x27;;document.getElementById(&#x27;btnNext&#x27;).style.display=&#x27;none&#x27;;
+  renderItems(puzzle.items);
+}
+function renderItems(items){
+  let c=document.getElementById(&#x27;sortContainer&#x27;);c.innerHTML=&#x27;&#x27;;
+  items.forEach((item,i)=&gt;{
+    let d=document.createElement(&#x27;div&#x27;);d.className=&#x27;sort-item&#x27;;d.draggable=true;d.dataset.value=item;
+    d.innerHTML=&#x27;&lt;span class=&quot;sort-handle&quot;&gt;☰&lt;/span&gt;&lt;span class=&quot;sort-num&quot;&gt;&#x27;+(i+1)+&#x27;&lt;/span&gt;&lt;span&gt;&#x27;+item+&#x27;&lt;/span&gt;&#x27;;
+    d.addEventListener(&#x27;dragstart&#x27;,handleDragStart);d.addEventListener(&#x27;dragover&#x27;,handleDragOver);
+    d.addEventListener(&#x27;drop&#x27;,handleDrop);d.addEventListener(&#x27;dragend&#x27;,handleDragEnd);
+    d.addEventListener(&#x27;touchstart&#x27;,handleTouchStart,{passive:false});d.addEventListener(&#x27;touchmove&#x27;,handleTouchMove,{passive:false});
+    d.addEventListener(&#x27;touchend&#x27;,handleTouchEnd);
+    c.appendChild(d);
+  });
+}
+function handleDragStart(e){dragSrcEl=this;this.classList.add(&#x27;dragging&#x27;);e.dataTransfer.effectAllowed=&#x27;move&#x27;}
+function handleDragOver(e){e.preventDefault();e.dataTransfer.dropEffect=&#x27;move&#x27;;this.classList.add(&#x27;over&#x27;)}
+function handleDrop(e){e.preventDefault();this.classList.remove(&#x27;over&#x27;);if(dragSrcEl===this)return;
+  let c=document.getElementById(&#x27;sortContainer&#x27;),items=[...c.children];
+  let fromIdx=items.indexOf(dragSrcEl),toIdx=items.indexOf(this);
+  if(fromIdx&lt;toIdx)c.insertBefore(dragSrcEl,this.nextSibling);else c.insertBefore(dragSrcEl,this);
+  updateNums();
+}
+function handleDragEnd(){this.classList.remove(&#x27;dragging&#x27;);document.querySelectorAll(&#x27;.sort-item&#x27;).forEach(i=&gt;i.classList.remove(&#x27;over&#x27;))}
+let touchItem=null,touchClone=null,touchStartY=0;
+function handleTouchStart(e){e.preventDefault();touchItem=this;touchStartY=e.touches[0].clientY;this.classList.add(&#x27;dragging&#x27;)}
+function handleTouchMove(e){e.preventDefault();let touch=e.touches[0];let items=[...document.getElementById(&#x27;sortContainer&#x27;).children];
+  for(let item of items){if(item===touchItem)continue;let rect=item.getBoundingClientRect();
+    if(touch.clientY&gt;rect.top&amp;&amp;touch.clientY&lt;rect.bottom){
+      let c=document.getElementById(&#x27;sortContainer&#x27;);
+      if(touch.clientY&lt;rect.top+rect.height/2)c.insertBefore(touchItem,item);
+      else c.insertBefore(touchItem,item.nextSibling);
+      updateNums();break;
+    }
+  }
+}
+function handleTouchEnd(){if(touchItem){touchItem.classList.remove(&#x27;dragging&#x27;);touchItem=null}updateNums()}
+function updateNums(){let items=document.querySelectorAll(&#x27;.sort-item .sort-num&#x27;);items.forEach((n,i)=&gt;n.textContent=i+1)}
+function checkOrder(){
+  if(st.checked)return;st.checked=true;
+  let items=[...document.querySelectorAll(&#x27;.sort-item&#x27;)];
+  let current=items.map(i=&gt;i.dataset.value);
+  let correct=JSON.stringify(current)===JSON.stringify(st.currentAnswer);
+  let fb=document.getElementById(&#x27;feedback&#x27;);
+  if(correct){
+    fb.className=&#x27;feedback correct&#x27;;fb.textContent=&#x27;🎉 Chính xác! +10 điểm&#x27;;st.score+=10;sndOk();
+    items.forEach(i=&gt;i.classList.add(&#x27;correct&#x27;));
+  }else{
+    fb.className=&#x27;feedback wrong&#x27;;fb.textContent=&#x27;❌ Chưa đúng! Thứ tự đúng: &#x27;+st.currentAnswer.join(&#x27; → &#x27;);sndNo();
+    items.forEach((item,idx)=&gt;{
+      if(item.dataset.value===st.currentAnswer[idx])item.classList.add(&#x27;correct&#x27;);
+      else item.classList.add(&#x27;wrong&#x27;);
+    });
+  }
+  document.getElementById(&#x27;scoreLabel&#x27;).textContent=&#x27;⭐ &#x27;+st.score;
+  document.getElementById(&#x27;btnCheck&#x27;).style.display=&#x27;none&#x27;;document.getElementById(&#x27;btnNext&#x27;).style.display=&#x27;&#x27;;
+  st.qIdx++;
+}
+function nextQ(){showQ()}
+function showResults(){
+  document.getElementById(&#x27;gameScreen&#x27;).classList.add(&#x27;hidden&#x27;);document.getElementById(&#x27;resultScreen&#x27;).classList.remove(&#x27;hidden&#x27;);
+  let pct=Math.round(st.score/(cfg.total*10)*100);
+  document.getElementById(&#x27;resultScore&#x27;).innerHTML=&#x27;Điểm: &#x27;+st.score+&#x27;/&#x27;+(cfg.total*10)+&#x27;&lt;br&gt;&#x27;+(pct&gt;=80?&#x27;⭐ Xuất sắc!&#x27;:pct&gt;=50?&#x27;👍 Giỏi lắm!&#x27;:&#x27;💪 Cố gắng!&#x27;);
+  sndWin();let colors=[&#x27;#8b5cf6&#x27;,&#x27;#22c55e&#x27;,&#x27;#3b82f6&#x27;,&#x27;#f59e0b&#x27;,&#x27;#ec4899&#x27;,&#x27;#06b6d4&#x27;];
+  for(let i=0;i&lt;35;i++){let p=document.createElement(&#x27;div&#x27;);p.className=&#x27;confetti-piece&#x27;;p.style.left=Math.random()*100+&#x27;vw&#x27;;p.style.background=colors[Math.floor(Math.random()*colors.length)];p.style.setProperty(&#x27;--fall-duration&#x27;,(2+Math.random()*3)+&#x27;s&#x27;);p.style.setProperty(&#x27;--rotation&#x27;,(Math.random()*720-360)+&#x27;deg&#x27;);p.style.animationDelay=Math.random()*2+&#x27;s&#x27;;p.style.borderRadius=Math.random()&gt;.5?&#x27;50%&#x27;:&#x27;2px&#x27;;p.style.width=(6+Math.random()*8)+&#x27;px&#x27;;p.style.height=(8+Math.random()*14)+&#x27;px&#x27;;document.body.appendChild(p);setTimeout(()=&gt;p.remove(),5000)}
+}
+function resetAll(){document.getElementById(&#x27;setupScreen&#x27;).classList.remove(&#x27;hidden&#x27;);document.getElementById(&#x27;gameScreen&#x27;).classList.add(&#x27;hidden&#x27;);document.getElementById(&#x27;resultScreen&#x27;).classList.add(&#x27;hidden&#x27;)}
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</textarea>
 <div class="ov" id="ov"><iframe id="gf" sandbox="allow-scripts allow-same-origin"></iframe></div>
 <button class="cb" id="cb" onclick="closeGame()">✕</button>
 <div class="gl" id="gl"></div>
@@ -1634,6 +2405,37 @@ function resetAll(){document.getElementById(&#x27;setupScreen&#x27;).classList.r
       <div class="dl" id="eL"></div>
       <button class="pb" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed);box-shadow:0 4px 15px rgba(124,58,237,.25)" onclick="openGame(6,'🇬🇧 English G2')">🚀 PLAY NOW</button>
     </div>
+  
+    <div class="card" style="background:linear-gradient(145deg,#fefce8,#fef3c7,#fed7aa);border:2px solid #f59e0b">
+      <div class="ch"><div class="ci" style="background:linear-gradient(135deg,#f59e0b,#d97706)">🎡</div>
+        <div><div class="ct" style="color:#92400e">Vòng Quay May Mắn<br>Toán & TV & TNXH</div>
+        <div class="cs-t">Quay và trả lời câu hỏi</div></div></div>
+      <div class="gc" style="background:rgba(217,119,6,.1);color:#92400e">🎡 4 chủ đề • Quay ngẫu nhiên + Bonus</div>
+      <div class="cd">Quay vòng xoay → dừng ở ô ngẫu nhiên → hiện câu hỏi. Có ô Bonus +15 điểm và ô x2 điểm. GV dùng khởi động bài, kiểm tra bài cũ.</div>
+      <div class="dt" onclick="toggleList(this)" style="border-color:#f59e0b">📋 Xem chi tiết <span class="ta">▼</span></div>
+      <div class="dl" id="wL"></div>
+      <button class="pb" style="background:linear-gradient(135deg,#f59e0b,#d97706);box-shadow:0 4px 15px rgba(217,119,6,.25)" onclick="openGame(8,'🎡 Vòng Quay May Mắn')">🚀 CHƠI NGAY</button>
+    </div>
+    <div class="card" style="background:linear-gradient(145deg,#fef2f2,#fecaca,#fda4af);border:2px solid #f87171">
+      <div class="ch"><div class="ci" style="background:linear-gradient(135deg,#ef4444,#dc2626)">🎯</div>
+        <div><div class="ct" style="color:#991b1b">Bắn Bóng Bay<br>Toán & Tiếng Việt</div>
+        <div class="cs-t">Bắn trúng bóng đáp án đúng</div></div></div>
+      <div class="gc" style="background:rgba(220,38,38,.1);color:#991b1b">🎈 2 chủ đề • Tính nhẩm nhanh + TV</div>
+      <div class="cd">Bóng bay mang đáp án bay lên → bắn trúng bóng đúng. Combo streak tăng điểm. Rèn phản xạ nhanh, phù hợp thi đua cá nhân.</div>
+      <div class="dt" onclick="toggleList(this)" style="border-color:#f87171">📋 Xem chi tiết <span class="ta">▼</span></div>
+      <div class="dl" id="bL"></div>
+      <button class="pb" style="background:linear-gradient(135deg,#ef4444,#dc2626);box-shadow:0 4px 15px rgba(220,38,38,.25)" onclick="openGame(9,'🎯 Bắn Bóng Bay')">🚀 CHƠI NGAY</button>
+    </div>
+    <div class="card" style="background:linear-gradient(145deg,#f5f3ff,#ede9fe,#ddd6fe);border:2px solid #a78bfa">
+      <div class="ch"><div class="ci" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed)">📊</div>
+        <div><div class="ct" style="color:#5b21b6">Kéo Thả Sắp Xếp<br>Toán & Tiếng Việt</div>
+        <div class="cs-t">Drag & Drop – Sắp xếp thứ tự</div></div></div>
+      <div class="gc" style="background:rgba(124,58,237,.1);color:#5b21b6">📊 5 dạng bài • Số, phép tính, câu, chữ cái</div>
+      <div class="cd">Kéo thả để sắp xếp: số từ bé→lớn, lớn→bé, phép tính theo kết quả, ghép câu đúng, thứ tự bảng chữ cái. Hỗ trợ cảm ứng.</div>
+      <div class="dt" onclick="toggleList(this)" style="border-color:#a78bfa">📋 Xem chi tiết <span class="ta">▼</span></div>
+      <div class="dl" id="sL"></div>
+      <button class="pb" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed);box-shadow:0 4px 15px rgba(124,58,237,.25)" onclick="openGame(10,'📊 Kéo Thả Sắp Xếp')">🚀 CHƠI NGAY</button>
+    </div>
   </div>
 </div>
 <div class="footer">
@@ -1651,6 +2453,10 @@ var tnxhGames=[{e:"🏃",n:"Cơ thể người & sức khỏe",t:"Tim, phổi, g
 var cdGames=[{e:"👨‍👩‍👧",n:"Gia đình",t:"Tình cảm, thành ngữ",b:"e"},{e:"🏫",n:"Trường học",t:"Đạo đức, từ vựng",b:"e"},{e:"🌿",n:"Thiên nhiên",t:"Miêu tả, từ láy, so sánh",b:"m"},{e:"✏️",n:"Chính tả tổng hợp",t:"s/x, tr/ch, d/gi, vần…",b:"m"}];
 var engGames=[{e:"📦",n:"Vocabulary (Family, Body, Food)",t:"15 questions",b:"e"},{e:"📝",n:"Grammar (Verb to be, This/That)",t:"15 questions",b:"m"},{e:"📖",n:"Reading & Comprehension",t:"15 questions",b:"e"}];
 buildList('mL',mathGames,1);buildList('vL',vietGames,2);buildList('rL',raceGames,3);buildList('tL',tnxhGames,4);buildList('cdL',cdGames,5);buildList('eL',engGames,6);
+var wheelGames=[{e:"🎲",n:"Hỗn hợp (Toán + TV + TNXH)",t:"40 câu random",b:"m"},{e:"🔢",n:"Toán Lớp 2",t:"15 câu tính toán",b:"e"},{e:"📖",n:"Tiếng Việt Lớp 2",t:"15 câu từ vựng, chính tả",b:"e"},{e:"🌿",n:"TNXH Lớp 2",t:"10 câu khoa học",b:"e"}];
+var balloonGames=[{e:"🔢",n:"Toán (tính nhẩm nhanh)",t:"20 câu cộng trừ nhân chia",b:"e"},{e:"📖",n:"Tiếng Việt",t:"15 câu từ vựng, chính tả",b:"e"},{e:"🎲",n:"Hỗn hợp Toán + TV",t:"35 câu random",b:"m"}];
+var sortGames=[{e:"🔢",n:"Số từ bé đến lớn",t:"Sắp xếp 5 số tăng dần",b:"e"},{e:"🔢",n:"Số từ lớn đến bé",t:"Sắp xếp 5 số giảm dần",b:"e"},{e:"🧮",n:"Phép tính tăng dần",t:"Sắp xếp theo kết quả",b:"m"},{e:"📝",n:"Sắp xếp câu đúng",t:"Ghép từ thành câu hoàn chỉnh",b:"m"},{e:"🔤",n:"Thứ tự bảng chữ cái",t:"Sắp xếp từ theo ABC",b:"e"}];
+buildList('wL',wheelGames,8);buildList('bL',balloonGames,9);buildList('sL',sortGames,10);
 function toggleList(btn){var list=btn.nextElementSibling;var wasOpen=btn.classList.contains('open');var allBtns=document.querySelectorAll('.dt.open');for(var i=0;i<allBtns.length;i++){if(allBtns[i]!==btn){allBtns[i].classList.remove('open');allBtns[i].nextElementSibling.classList.remove('open')}}btn.classList.toggle('open');list.classList.toggle('open')}
 var cards=document.querySelectorAll('.card');for(var i=0;i<cards.length;i++){(function(card){card.addEventListener('mousemove',function(e){var r=card.getBoundingClientRect();var x=(e.clientX-r.left)/r.width-.5;var y=(e.clientY-r.top)/r.height-.5;card.style.transform='perspective(700px) rotateY('+(x*8)+'deg) rotateX('+(-y*8)+'deg) translateY(-6px) scale(1.015)'});card.addEventListener('mouseleave',function(){card.style.transform=''})})(cards[i])}
 </script>
